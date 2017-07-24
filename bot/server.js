@@ -29,28 +29,40 @@ bot.recognizer(recognizer);
 bot.dialog('/getPrice', [
     (session, args, next) => {
         let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
-        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
-        session.send(`You wanted to know ${company}'s share price!`);
+        if (companyEntityObject === null) {
+            session.beginDialog('/none')
+        } else {
+            let company = companyEntityObject.entity
+            if (company === null) {
+                session.send(`Hmm, it looks like you are trying to find a stock price but I didn't understand the company name/abbreviation. Please try again.`)
+            } else {
+                session.send(`You wanted to know ${company}'s share price!`);
+            }
+        }
     }
 ]).triggerAction({
     matches: 'GetPrice'
 });
 
-bot.dialog('/help', [
-    (session, args, next) => {
-        session.send(`No intent!`);
-    }
-]).triggerAction({
-    matches: 'None'
-});
 
 bot.dialog('/buy', [
     (session, args, next) => {
+        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
         let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
-        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');     
-        let amount = amountEntityObject.entity ? amountEntityObject.entity : "Not Found";
-        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
-        session.send(`You wanted to buy ${amount} shares of ${company}!`);
+        if (companyEntityObject === null) {
+            session.beginDialog('/none')
+        } else {
+            if (amountEntityObject === null) {
+                session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
+            }
+            let company = companyEntityObject.entity
+            let amount = amountEntityObject.entity
+            if (company === null || amount === null) {                
+                session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
+            } else {
+                session.send(`You wanted to buy ${amount} shares of ${company}!`);
+            }
+        }
     }
 ]).triggerAction({
     matches: 'Buy'
@@ -58,12 +70,31 @@ bot.dialog('/buy', [
 
 bot.dialog('/sell', [
     (session, args, next) => {
-        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
         let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
-        let amount = amountEntityObject.entity ? amountEntityObject.entity : "Not Found";
-        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
-        session.send(`You wanted to sell ${amount} shares of ${company}!`);
+        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
+        if (companyEntityObject === null) {
+            session.beginDialog('/none')
+        } else {
+            if (amountEntityObject === null) {
+                session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
+            }
+            let company = companyEntityObject.entity
+            let amount = amountEntityObject.entity
+            if (company === null || amount === null) {                
+                session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
+            } else {
+                session.send(`You wanted to sell ${amount} shares of ${company}!`);
+            }
+        }
     }
 ]).triggerAction({
     matches: 'Sell'
+});
+
+bot.dialog('/none', [
+    (session, args, next) => {
+        session.send(`Hmm I didn't understand that. Please try again.`);
+    }
+]).triggerAction({
+    matches: 'None'
 });

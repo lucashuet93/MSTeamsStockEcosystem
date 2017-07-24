@@ -28,15 +28,29 @@ bot.recognizer(recognizer);
 
 bot.dialog('/getPrice', [
     (session, args, next) => {
-        session.send('You wanted to get price!');
+        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
+        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
+        session.send(`You wanted to know ${company}'s share price!`);
     }
 ]).triggerAction({
     matches: 'GetPrice'
 });
 
+bot.dialog('/help', [
+    (session, args, next) => {
+        session.send(`No intent!`);
+    }
+]).triggerAction({
+    matches: 'None'
+});
+
 bot.dialog('/buy', [
     (session, args, next) => {
-        session.send('You wanted to buy!');
+        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
+        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');     
+        let amount = amountEntityObject.entity ? amountEntityObject.entity : "Not Found";
+        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
+        session.send(`You wanted to buy ${amount} shares of ${company}!`);
     }
 ]).triggerAction({
     matches: 'Buy'
@@ -44,7 +58,11 @@ bot.dialog('/buy', [
 
 bot.dialog('/sell', [
     (session, args, next) => {
-        session.send('You wanted to sell!');
+        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
+        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
+        let amount = amountEntityObject.entity ? amountEntityObject.entity : "Not Found";
+        let company = companyEntityObject.entity ? companyEntityObject.entity : "Not Found";
+        session.send(`You wanted to sell ${amount} shares of ${company}!`);
     }
 ]).triggerAction({
     matches: 'Sell'

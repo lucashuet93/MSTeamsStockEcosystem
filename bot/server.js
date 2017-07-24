@@ -40,9 +40,13 @@ bot.dialog('/getPrice', [
                 let priceHistory = stockHelper.getStockPrice(company)
                     .then((res) => {
                         let priceHistory = res.data['Time Series (1min)']
-                        let priceObject = priceHistory[Object.keys(priceHistory)[0]];
-                        let mostRecentPrice = priceObject['4. close']
-                        session.send(`${company}'s share price is currently at ${mostRecentPrice}!`);
+                        if (!priceHistory) {
+                            session.send(`Hmm, it looks like you are trying to find a stock price but I didn't understand the company name/abbreviation. Please try again.`)
+                        } else {
+                            let priceObject = priceHistory[Object.keys(priceHistory)[0]];
+                            let mostRecentPrice = priceObject['4. close']
+                            session.send(`${company}'s share price is currently at ${mostRecentPrice}!`);
+                        }
                     })
             }
         }

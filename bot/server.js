@@ -1,6 +1,7 @@
 let restify = require('restify');
 let builder = require('botbuilder');
 let secrets = require('./secrets');
+let stockHelper = require('./stockHelper');
 
 //=========================================================
 // Bot Setup
@@ -36,7 +37,13 @@ bot.dialog('/getPrice', [
             if (company === null) {
                 session.send(`Hmm, it looks like you are trying to find a stock price but I didn't understand the company name/abbreviation. Please try again.`)
             } else {
-                session.send(`You wanted to know ${company}'s share price!`);
+                let priceHistory = stockHelper.getStockPrice(company)
+                    .then((res) => {
+                        let priceHistory = res.data['Time Series (1min)']
+                        let priceObject = priceHistory[Object.keys(priceHistory)[0]];
+                        let mostRecentPrice = priceObject['4. close']
+                        session.send(`${company}'s share price is currently at ${mostRecentPrice}!`);
+                    })
             }
         }
     }
@@ -57,7 +64,7 @@ bot.dialog('/buy', [
             }
             let company = companyEntityObject.entity
             let amount = amountEntityObject.entity
-            if (company === null || amount === null) {                
+            if (company === null || amount === null) {
                 session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
             } else {
                 session.send(`You wanted to buy ${amount} shares of ${company}!`);
@@ -80,7 +87,7 @@ bot.dialog('/sell', [
             }
             let company = companyEntityObject.entity
             let amount = amountEntityObject.entity
-            if (company === null || amount === null) {                
+            if (company === null || amount === null) {
                 session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
             } else {
                 session.send(`You wanted to sell ${amount} shares of ${company}!`);

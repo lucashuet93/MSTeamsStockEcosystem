@@ -73,6 +73,31 @@ let dbQueriesContainer = function () {
             console.log("Something bad happened:", err);
         });
     };
+    self.createCompany = (body, callback) => {
+        let guid = self.generateGUID()
+        self.sql.execute({
+            query: "INSERT INTO Companies VALUES (@guid, @name, @abbr)",
+            params: {
+                guid: {
+                    type: self.sql.uniqueidentifier,
+                    val: guid,
+                },
+                name: {
+                    type: self.sql.nvarchar,
+                    val: body.name,
+                },
+                abbr: {
+                    type: self.sql.nvarchar,
+                    val: body.abbr,
+                },
+            }
+        }).then(function (res) {
+            callback(res);
+        }, function (err) {
+            console.log("Something bad happened:", err);
+        });
+    };
+    
     self.updateUserCapital = (body, callback) => {
         self.sql.execute({
             query: "UPDATE Users SET CapitalRemaining = @newAmount WHERE Id = @userId",

@@ -39,7 +39,7 @@ const initRestApi = (router) => {
         });
     router.route('/buyNewShares')
         .post((req, res) => {
-            dbQueries.buyNewShares((response) => {
+            dbQueries.buyNewShares(req.body, (response) => {
                 res.json({
                     data: response
                 });
@@ -47,7 +47,7 @@ const initRestApi = (router) => {
         });
     router.route('/sellAllShares')
         .post((req, res) => {
-            dbQueries.sellAllShares((response) => {
+            dbQueries.sellAllShares(req.body, (response) => {
                 res.json({
                     data: response
                 });
@@ -55,7 +55,7 @@ const initRestApi = (router) => {
         });
     router.route('/updateShares')
         .post((req, res) => {
-            dbQueries.updateShares((response) => {
+            dbQueries.updateShares(req.body, (response) => {
                 res.json({
                     data: response
                 });

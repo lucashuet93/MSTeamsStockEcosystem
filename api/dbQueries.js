@@ -117,27 +117,81 @@ let dbQueriesContainer = function () {
             console.log("Something bad happened:", err);
         });
     };
-    self.sellAllShares = (callback) => {
+    
+    self.sellAllShares = (body, callback) => {
         self.sql.execute({
-            query: "SELECT * from Users",
+            query: "DELETE FROM Shares WHERE UserId = @userId AND CompanyId = @companyId",
+            params: {
+                userId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.userId,
+                },
+                companyId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.companyId,
+                },
+            }
         }).then(function (res) {
             callback(res);
         }, function (err) {
             console.log("Something bad happened:", err);
         });
     };
-    self.buyNewShares = (callback) => {
+    
+    self.buyNewShares = (body, callback) => {
+        let guid = self.generateGUID()
         self.sql.execute({
-            query: "SELECT * from Users",
+            query: "INSERT INTO Shares VALUES (@guid, @userId, @companyId, @numShares, @sharePrice)",
+            params: {
+                guid: {
+                    type: self.sql.uniqueidentifier,
+                    val: guid,
+                },
+                userId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.userId,
+                },
+                companyId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.companyId,
+                },
+                numShares: {
+                    type: self.sql.int,
+                    val: body.numShares,
+                },
+                sharePrice: {
+                    type: self.sql.float,
+                    val: body.sharePrice,
+                },
+            }
         }).then(function (res) {
             callback(res);
         }, function (err) {
             console.log("Something bad happened:", err);
         });
     };
-    self.updateShares = (callback) => {
+    
+    self.updateShares = (body, callback) => {
         self.sql.execute({
-            query: "SELECT * from Users",
+            query: "UPDATE Shares SET numShares = @numShares, sharePrice = @sharePrice WHERE CompanyId = @companyId AND UserId = @userId",
+            params: {
+                userId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.userId,
+                },
+                companyId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.companyId,
+                },
+                numShares: {
+                    type: self.sql.int,
+                    val: body.numShares,
+                },
+                sharePrice: {
+                    type: self.sql.float,
+                    val: body.sharePrice,
+                },
+            }
         }).then(function (res) {
             callback(res);
         }, function (err) {

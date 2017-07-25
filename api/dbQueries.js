@@ -104,7 +104,7 @@ let dbQueriesContainer = function () {
                 },
                 company: {
                     type: self.sql.nvarchar,
-                    val: body.companyId,
+                    val: body.company,
                 },
             }
         }).then(function (res) {

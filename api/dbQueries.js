@@ -96,14 +96,14 @@ let dbQueriesContainer = function () {
     
     self.sellAllShares = (body, callback) => {
         self.sql.execute({
-            query: "DELETE FROM Shares WHERE UserId = @userId AND CompanyId = @companyId",
+            query: "DELETE FROM Shares WHERE UserId = @userId AND Company = @company",
             params: {
                 userId: {
                     type: self.sql.uniqueidentifier,
                     val: body.userId,
                 },
-                companyId: {
-                    type: self.sql.uniqueidentifier,
+                company: {
+                    type: self.sql.nvarchar,
                     val: body.companyId,
                 },
             }
@@ -117,7 +117,7 @@ let dbQueriesContainer = function () {
     self.buyNewShares = (body, callback) => {
         let guid = self.generateGUID()
         self.sql.execute({
-            query: "INSERT INTO Shares VALUES (@guid, @userId, @companyId, @numShares, @sharePrice)",
+            query: "INSERT INTO Shares VALUES (@guid, @userId, @company, @numShares, @sharePrice)",
             params: {
                 guid: {
                     type: self.sql.uniqueidentifier,
@@ -127,9 +127,9 @@ let dbQueriesContainer = function () {
                     type: self.sql.uniqueidentifier,
                     val: body.userId,
                 },
-                companyId: {
-                    type: self.sql.uniqueidentifier,
-                    val: body.companyId,
+                company: {
+                    type: self.sql.nvarchar,
+                    val: body.company,
                 },
                 numShares: {
                     type: self.sql.int,
@@ -149,15 +149,15 @@ let dbQueriesContainer = function () {
     
     self.updateShares = (body, callback) => {
         self.sql.execute({
-            query: "UPDATE Shares SET numShares = @numShares, sharePrice = @sharePrice WHERE CompanyId = @companyId AND UserId = @userId",
+            query: "UPDATE Shares SET numShares = @numShares, sharePrice = @sharePrice WHERE Company = @company AND UserId = @userId",
             params: {
                 userId: {
                     type: self.sql.uniqueidentifier,
                     val: body.userId,
                 },
-                companyId: {
-                    type: self.sql.uniqueidentifier,
-                    val: body.companyId,
+                company: {
+                    type: self.sql.nvarchar,
+                    val: body.company,
                 },
                 numShares: {
                     type: self.sql.int,

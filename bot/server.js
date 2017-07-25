@@ -28,10 +28,42 @@ const LUISEndpoint = secrets.LUISEndpoint;
 
 let recognizer = new builder.LuisRecognizer(LUISEndpoint);
 bot.recognizer(recognizer);
+const choicesAsButtons = { listStyle: builder.ListStyle.button }
+
+bot.dialog('/noUser', [
+    (session, args, next) => {
+        let opts = ['Log In', 'Sign Up']
+        builder.Prompts.choice(session, "Let's get you started.", opts, choicesAsButtons)
+    },
+    (session, results, next) => {
+        if (results.response.entity === 'Log In') {
+            session.beginDialog('/login')
+        } else {
+            session.beginDialog('/createAccount')
+        }
+    },
+])
 
 bot.dialog('/login', [
     (session, args, next) => {
-        
+        builder.Prompts.text(session, "What's your username?")
+    },
+    (session, results, next) => {
+        session.dialogData.username = results.response;
+        builder.Prompts.text(session, "And password?")
+    },
+    (session, results, next) => {
+        apiHelper.loginUser(session.dialogData.username, results.response)
+            .then((res) => {
+                if (res.data.data.length > 0) {
+                    session.userData.user = res.data.data[0]
+                    session.send(`Thanks ${session.userData.user.Firstname}, you're all signed in. What can I do for you?`)
+                } else {
+                    session.send(`Sorry, we were unable to retrieve that username/password combo. Please try again.`)
+                    session.replaceDialog('/noUser')
+                }
+            })
+
     }
 ])
 
@@ -56,10 +88,11 @@ bot.dialog('/createAccount', [
         let user = session.dialogData;
         apiHelper.createUser(user.username, user.password, user.firstname, user.lastname)
         session.userData.user = {
-            username: user.username,
-            password: user.password,
-            firstname: user.firstname,
-            lastname: user.lastname
+            Username: user.username,
+            Password: user.password,
+            Firstname: user.firstname,
+            Lastname: user.lastname,
+            CapitalRemaining: 50000
         }
         session.send(`Thanks ${user.firstname}, you're all set to go now!`)
         session.endDialog();
@@ -144,7 +177,7 @@ bot.dialog('/sell', [
 bot.dialog('/none', [
     (session, args, next) => {
         session.send(`Hmm I didn't understand that. Please try again.`);
-        session.beginDialog('/createAccount')
+        session.beginDialog('/noUser')
     }
 ]).triggerAction({
     matches: 'None'

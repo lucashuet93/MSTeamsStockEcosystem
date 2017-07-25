@@ -11,7 +11,7 @@ const loginUser = (username, password) => {
 		username: username,
 		password: password
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const createUser = (username, password, firstname, lastname) => {
@@ -22,7 +22,7 @@ const createUser = (username, password, firstname, lastname) => {
 		firstname: firstname,
 		lastname: lastname
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const updateUserCapital = (userId, newAmount) => {
@@ -31,7 +31,7 @@ const updateUserCapital = (userId, newAmount) => {
 		userId: userId,
 		newAmount: newAmount
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const sellAllShares = (userId, company) => {
@@ -40,7 +40,7 @@ const sellAllShares = (userId, company) => {
 		userId: userId,
 		company: company,
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const buyNewShares = (userId, company, numShares, sharePrice) => {
@@ -51,7 +51,7 @@ const buyNewShares = (userId, company, numShares, sharePrice) => {
 		numShares: numShares,
 		sharePrice: sharePrice
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const updateShares = (userId, company, numShares, sharePrice) => {
@@ -62,7 +62,7 @@ const updateShares = (userId, company, numShares, sharePrice) => {
 		numShares: numShares,
 		sharePrice: sharePrice
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 const getPortfolio = (userId) => {
@@ -70,7 +70,7 @@ const getPortfolio = (userId) => {
 	let body = {
 		userId: userId
 	}
-	axios.post(route, body, config)
+	return axios.post(route, body, config)
 }
 
 module.exports = {

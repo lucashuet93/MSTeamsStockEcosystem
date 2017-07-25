@@ -7,7 +7,7 @@ const initRestApi = (router) => {
 	
     router.route('/loginUser')
         .get((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.loginUser((response) => {
                 res.json({
                     data: response
                 });
@@ -15,15 +15,15 @@ const initRestApi = (router) => {
         });
     router.route('/createUser')
         .post((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.createUser((response) => {
                 res.json({
                     data: response
                 });
             })
         });
-    router.route('/updateUserCapitalRemaining')
+    router.route('/updateUserCapital')
         .post((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.updateUserCapital((response) => {
                 res.json({
                     data: response
                 });
@@ -31,7 +31,7 @@ const initRestApi = (router) => {
         });
     router.route('/buyNewShares')
         .post((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.buyNewShares((response) => {
                 res.json({
                     data: response
                 });
@@ -39,7 +39,7 @@ const initRestApi = (router) => {
         });
     router.route('/sellAllShares')
         .post((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.sellAllShares((response) => {
                 res.json({
                     data: response
                 });
@@ -47,7 +47,7 @@ const initRestApi = (router) => {
         });
     router.route('/updateShares')
         .post((req, res) => {
-            dbQueries.getUsers((response) => {
+            dbQueries.updateShares((response) => {
                 res.json({
                     data: response
                 });

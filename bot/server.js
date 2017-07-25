@@ -2,6 +2,8 @@ let restify = require('restify');
 let builder = require('botbuilder');
 let secrets = require('./secrets');
 let stockHelper = require('./stockHelper');
+let apiHelper = require('./apiHelper');
+
 
 //=========================================================
 // Bot Setup
@@ -26,6 +28,43 @@ const LUISEndpoint = secrets.LUISEndpoint;
 
 let recognizer = new builder.LuisRecognizer(LUISEndpoint);
 bot.recognizer(recognizer);
+
+bot.dialog('/login', [
+    (session, args, next) => {
+        
+    }
+])
+
+bot.dialog('/createAccount', [
+    (session, args, next) => {
+        builder.Prompts.text(session, "Please enter a username")
+    },
+    (session, results, next) => {
+        session.dialogData.username = results.response;
+        builder.Prompts.text(session, "Please enter a password")
+    },
+    (session, results, next) => {
+        session.dialogData.password = results.response;
+        builder.Prompts.text(session, "Great! What's your first name?")
+    },
+    (session, results, next) => {
+        session.dialogData.firstname = results.response;
+        builder.Prompts.text(session, "Last name?")
+    },
+    (session, results, next) => {
+        session.dialogData.lastname = results.response;
+        let user = session.dialogData;
+        apiHelper.createUser(user.username, user.password, user.firstname, user.lastname)
+        session.userData.user = {
+            username: user.username,
+            password: user.password,
+            firstname: user.firstname,
+            lastname: user.lastname
+        }
+        session.send(`Thanks ${user.firstname}, you're all set to go now!`)
+        session.endDialog();
+    }
+])
 
 bot.dialog('/getPrice', [
     (session, args, next) => {
@@ -105,6 +144,7 @@ bot.dialog('/sell', [
 bot.dialog('/none', [
     (session, args, next) => {
         session.send(`Hmm I didn't understand that. Please try again.`);
+        session.beginDialog('/createAccount')
     }
 ]).triggerAction({
     matches: 'None'

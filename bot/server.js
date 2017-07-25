@@ -87,15 +87,20 @@ bot.dialog('/createAccount', [
         session.dialogData.lastname = results.response;
         let user = session.dialogData;
         apiHelper.createUser(user.username, user.password, user.firstname, user.lastname)
-        session.userData.user = {
-            Username: user.username,
-            Password: user.password,
-            Firstname: user.firstname,
-            Lastname: user.lastname,
-            CapitalRemaining: 50000
-        }
-        session.send(`Thanks ${user.firstname}, you're all set to go now!`)
-        session.endDialog();
+            .then((res) => {
+                let returnedId = res.data.data;
+                session.userData.user = {
+                    Id: returnedId,
+                    Username: user.username,
+                    Password: user.password,
+                    Firstname: user.firstname,
+                    Lastname: user.lastname,
+                    CapitalRemaining: 50000
+                }
+                session.send(`Thanks ${user.firstname}, you're all set to go now!`)
+                session.endDialog();
+            })
+
     }
 ])
 

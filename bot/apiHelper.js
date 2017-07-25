@@ -74,5 +74,11 @@ const getPortfolio = (userId) => {
 }
 
 module.exports = {
-
+	loginUser: loginUser,
+	createUser: createUser,
+	updateUserCapital: updateUserCapital,
+	buyNewShares: buyNewShares,
+	sellAllShares: sellAllShares,
+	updateShares: updateShares,
+	getPortfolio: getPortfolio
 }

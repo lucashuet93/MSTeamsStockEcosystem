@@ -1,14 +1,14 @@
 "use strict";
-let secrets = require('./secrets');
+
 let dbQueriesContainer = function () {
     let self = this;
     self.sql = require('seriate');
     self.axios = require('axios')
     self.sql.setDefaultConfig({
-        user: secrets.User,
-        password: secrets.Password,
-        host: secrets.Host,
-        database: secrets.Database,
+        user: process.env.User,
+        password: process.env.Password,
+        host: process.env.Host,
+        database: process.env.Database,
         options: {
             encrypt: true
         }

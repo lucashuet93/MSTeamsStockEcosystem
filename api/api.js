@@ -6,8 +6,8 @@ const initRestApi = (router) => {
     });
 	
     router.route('/loginUser')
-        .get((req, res) => {
-            dbQueries.loginUser((response) => {
+        .post((req, res) => {
+            dbQueries.loginUser(req.body.username, req.body.password, (response) => {
                 res.json({
                     data: response
                 });
@@ -15,7 +15,7 @@ const initRestApi = (router) => {
         });
     router.route('/createUser')
         .post((req, res) => {
-            dbQueries.createUser((response) => {
+            dbQueries.createUser(req.body, (response) => {
                 res.json({
                     data: response
                 });
@@ -23,7 +23,7 @@ const initRestApi = (router) => {
         });
     router.route('/updateUserCapital')
         .post((req, res) => {
-            dbQueries.updateUserCapital((response) => {
+            dbQueries.updateUserCapital(req.body, (response) => {
                 res.json({
                     data: response
                 });

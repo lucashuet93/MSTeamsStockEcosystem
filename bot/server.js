@@ -106,6 +106,10 @@ bot.dialog('/createAccount', [
 
 bot.dialog('/getPrice', [
     (session, args, next) => {
+        if(!session.userData.user){
+            session.send("Hmm I don't have you logged in yet.")
+            session.replaceDialog('/login')
+        }
         let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
         if (companyEntityObject === null) {
             session.beginDialog('/none')
@@ -135,6 +139,10 @@ bot.dialog('/getPrice', [
 
 bot.dialog('/buy', [
     (session, args, next) => {
+        if(!session.userData.user){
+            session.send("Hmm I don't have you logged in yet.")
+            session.replaceDialog('/login')
+        }
         let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
         let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
         if (companyEntityObject === null) {
@@ -158,6 +166,10 @@ bot.dialog('/buy', [
 
 bot.dialog('/sell', [
     (session, args, next) => {
+        if(!session.userData.user){
+            session.send("Hmm I don't have you logged in yet.")
+            session.replaceDialog('/login')
+        }
         let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
         let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
         if (companyEntityObject === null) {
@@ -181,8 +193,11 @@ bot.dialog('/sell', [
 
 bot.dialog('/none', [
     (session, args, next) => {
+        if(!session.userData.user){
+            session.send("Hmm I don't have you logged in yet.")
+            session.replaceDialog('/login')
+        }
         session.send(`Hmm I didn't understand that. Please try again.`);
-        session.beginDialog('/noUser')
     }
 ]).triggerAction({
     matches: 'None'

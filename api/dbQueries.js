@@ -68,7 +68,7 @@ let dbQueriesContainer = function () {
                 },
             }
         }).then(function (res) {
-            callback(res);
+            callback(guid);
         }, function (err) {
             console.log("Something bad happened:", err);
         });

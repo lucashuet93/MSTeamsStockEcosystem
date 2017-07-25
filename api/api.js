@@ -29,14 +29,6 @@ const initRestApi = (router) => {
                 });
             })
         });
-    router.route('/createCompany')
-        .post((req, res) => {
-            dbQueries.createCompany(req.body, (response) => {
-                res.json({
-                    data: response
-                });
-            })
-        });
     router.route('/buyNewShares')
         .post((req, res) => {
             dbQueries.buyNewShares(req.body, (response) => {

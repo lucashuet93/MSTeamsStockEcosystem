@@ -198,5 +198,21 @@ let dbQueriesContainer = function () {
             console.log("Something bad happened:", err);
         });
     };
+    
+    self.getPortfolio = (body, callback) => {
+        self.sql.execute({
+            query: "SELECT * FROM Shares WHERE UserId = @userId",
+            params: {
+                userId: {
+                    type: self.sql.uniqueidentifier,
+                    val: body.userId,
+                }
+            }
+        }).then(function (res) {
+            callback(res);
+        }, function (err) {
+            console.log("Something bad happened:", err);
+        });
+    };
 };
 module.exports = new dbQueriesContainer();

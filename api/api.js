@@ -61,6 +61,14 @@ const initRestApi = (router) => {
                 });
             })
         });
+    router.route('/getPortfolio')
+        .post((req, res) => {
+            dbQueries.getPortfolio(req.body, (response) => {
+                res.json({
+                    data: response
+                });
+            })
+        });
 }
 
 module.exports = initRestApi;

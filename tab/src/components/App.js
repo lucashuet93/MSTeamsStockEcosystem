@@ -3,7 +3,7 @@ import '../assets/App.css';
 import Content from './Content'
 import Overview from './Overview'
 import Login from './Login'
-import { loginUser } from '../helpers/apiHelper'
+import { loginUser, createUser } from '../helpers/apiHelper'
 
 
 class App extends Component {
@@ -14,12 +14,18 @@ class App extends Component {
 			portfolio: null
 		}
 	}
-	attemptLogin(username, password){
+	attemptLogin(username, password) {
 		loginUser(username, password)
 			.then((res) => {
 				this.setState({
 					user: res.data.data[0]
 				})
+			})
+	}
+	signUp(username, password, firstname, lastname) {
+		createUser(username, password, firstname, lastname)
+			.then((res) => {
+				console.log('DATA', res.data)
 			})
 	}
 	renderContent() {
@@ -37,14 +43,14 @@ class App extends Component {
 	renderLogin() {
 		return (
 			<div>
-				<Login attemptLogin={this.attemptLogin.bind(this)}/>
+				<Login attemptLogin={this.attemptLogin.bind(this)} signUp={this.signUp.bind(this)} />
 			</div>
 		)
 	}
 	render() {
 		return (
 			<div>
-				{ this.state.user == null ? this.renderLogin() : this.renderContent() }
+				{this.state.user == null ? this.renderLogin() : this.renderContent()}
 			</div>
 		);
 	}

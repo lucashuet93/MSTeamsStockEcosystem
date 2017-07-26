@@ -237,8 +237,13 @@ bot.dialog('/sell', [
                                                 })
                                         } else {
                                             //update shares
-
-                                            
+                                            let prevNumShares = stockFound.NumShares;
+                                            let newNumShares = prevNumShares - amount;
+                                            apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.sharePrice)
+                                            .then((r) => {
+                                                    session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
+                                                    apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                })
                                         }
                                     }
                                 })

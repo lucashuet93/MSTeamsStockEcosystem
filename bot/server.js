@@ -170,11 +170,16 @@ bot.dialog('/buy', [
                                         let totalPrice = mostRecentPrice * amount;
                                         let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
                                         if (capitalRemaining > 0) {
-                                            apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
-                                                .then((r) => {
-                                                    session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
-                                                    apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
-                                                })
+                                            let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
+                                            if (stockFound) {
+                                                session.send(`Going to update shares`)
+                                            } else {
+                                                apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
+                                                    .then((r) => {
+                                                        session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                        apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                    })
+                                            }
                                         } else {
                                             session.send(`I'm sorry it looks like you have insufficient funds. You have $${session.userData.user.CapitalRemaining} remaining in your account but the order price is $${totalPrice.toFixed(2)}.`)
                                         }
@@ -240,7 +245,7 @@ bot.dialog('/sell', [
                                             let prevNumShares = stockFound.NumShares;
                                             let newNumShares = prevNumShares - amount;
                                             apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.SharePrice)
-                                            .then((r) => {
+                                                .then((r) => {
                                                     session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
                                                 })

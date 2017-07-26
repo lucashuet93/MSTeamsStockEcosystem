@@ -3,6 +3,8 @@ import '../assets/App.css';
 import Content from './Content'
 import Overview from './Overview'
 import Login from './Login'
+import { loginUser } from '../helpers/apiHelper'
+
 
 class App extends Component {
 	constructor(p) {
@@ -11,6 +13,12 @@ class App extends Component {
 			user: null,
 			portfolio: null
 		}
+	}
+	attemptLogin(username, password){
+		loginUser(username, password)
+			.then((res) => {
+				console.log('DATA', res.data)
+			})
 	}
 	renderContent() {
 		return (
@@ -27,7 +35,7 @@ class App extends Component {
 	renderLogin() {
 		return (
 			<div>
-				<Login />
+				<Login attemptLogin={this.attemptLogin.bind(this)}/>
 			</div>
 		)
 	}

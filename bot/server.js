@@ -179,14 +179,20 @@ bot.dialog('/buy', [
                                                 let avgSharePrice = newTotal / newNumShares;
                                                 apiHelper.updateShares(session.userData.user.Id, company, newNumShares, avgSharePrice)
                                                     .then((r) => {
-                                                        session.send(`You've successfully purchased ${amount} shares in ${company} for a total price of ${totalPrice.toFixed(2)}!`);
                                                         apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                            .then((r) => {
+                                                                setLocalUserCapital(session, capitalRemaining)
+                                                                session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                            })
                                                     })
                                             } else {
                                                 apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
                                                     .then((r) => {
-                                                        session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
                                                         apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                            .then((r) => {
+                                                                setLocalUserCapital(session, capitalRemaining)
+                                                                session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                            })
                                                     })
                                             }
                                         } else {
@@ -235,8 +241,7 @@ bot.dialog('/sell', [
                                         let priceObject = priceHistory[Object.keys(priceHistory)[0]];
                                         let mostRecentPrice = priceObject['4. close']
                                         let totalPrice = mostRecentPrice * amount;
-                                        let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
-                                        let newCapitalRemaining = capitalRemaining + totalPrice;
+                                        let newCapitalRemaining = session.userData.user.CapitalRemaining + totalPrice;
                                         let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
                                         if (!stockFound) {
                                             session.send(`I'm sorry but it looks like you don't currently own any stock in ${company}`)
@@ -246,8 +251,11 @@ bot.dialog('/sell', [
                                             //sell all shares
                                             apiHelper.sellAllShares(session.userData.user.Id, company)
                                                 .then((r) => {
-                                                    session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                        .then((r) => {
+                                                            setLocalUserCapital(session, newCapitalRemaining)
+                                                            session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
+                                                        })
                                                 })
                                         } else {
                                             //update shares
@@ -255,8 +263,11 @@ bot.dialog('/sell', [
                                             let newNumShares = prevNumShares - amount;
                                             apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.SharePrice)
                                                 .then((r) => {
-                                                    session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                        .then((r) => {
+                                                            setLocalUserCapital(session, newCapitalRemaining)
+                                                            session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
+                                                        })
                                                 })
                                         }
                                     }
@@ -282,3 +293,15 @@ bot.dialog('/none', [
 ]).triggerAction({
     matches: 'None'
 });
+
+const setLocalUserCapital = (session, capitalRemaining) => {
+    let currentUser = session.userData.user;
+    session.userData.user = {
+        Id: currentUser.Id,
+        Username: currentUser.Username,
+        Password: currentUser.Password,
+        Firstname: currentUser.Firstname,
+        Lastname: currentUser.Lastname,
+        CapitalRemaining: capitalRemaining
+    }
+}

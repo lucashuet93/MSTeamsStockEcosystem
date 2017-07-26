@@ -172,7 +172,16 @@ bot.dialog('/buy', [
                                         if (capitalRemaining > 0) {
                                             let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
                                             if (stockFound) {
-                                                session.send(`Going to update shares`)
+                                                let prevTotal = stockFound.NumShares * stockFound.SharePrice;
+                                                let newTotal = prevTotal + totalPrice;
+                                                let newNumShares = stockFound.NumShares + parseInt(amount);
+                                                //I realize this isnt the best way to handle this, will store multiple share prices later on
+                                                let avgSharePrice = newTotal / newNumShares;
+                                                apiHelper.updateShares(session.userData.user.Id, company, newNumShares, avgSharePrice)
+                                                    .then((r) => {
+                                                        session.send(`You've successfully purchased ${amount} shares in ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                        apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                    })
                                             } else {
                                                 apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
                                                     .then((r) => {

@@ -38,7 +38,7 @@ class Login extends Component {
 			})
 	}
 	handleClick() {
-		this.signUp("testuser", "password", "Test", "Pass")
+		this.attemptLogin("maucon", "password")
 	}
 	render() {
 		return (

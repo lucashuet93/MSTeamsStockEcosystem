@@ -230,14 +230,15 @@ bot.dialog('/sell', [
                                             session.send(`I'm sorry but it looks like you only own ${stockFound.NumShares} shares in ${company}.`)
                                         } else if (stockFound.NumShares === amount) {
                                             //sell all shares
+                                            apiHelper.sellAllShares(session.userData.user.Id, company)
+                                                .then((r) => {
+                                                    session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
+                                                    apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                })
                                         } else {
                                             //update shares
 
-                                            // apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
-                                            //     .then((r) => {
-                                            //         session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice}!`);
-                                            //         apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
-                                            //     })
+                                            
                                         }
                                     }
                                 })

@@ -10,7 +10,7 @@ class Login extends Component {
 	attemptLogin(username, password) {
 		loginUser(username, password)
 			.then((res) => {
-				if (res.data.data.length > 0){
+				if (res.data.data.length > 0) {
 					let foundUser = res.data.data[0];
 					getPortfolio(foundUser.Id)
 						.then((r) => {
@@ -24,16 +24,26 @@ class Login extends Component {
 	signUp(username, password, firstname, lastname) {
 		createUser(username, password, firstname, lastname)
 			.then((res) => {
-				console.log('DATA', res.data)
+				let ID = res.data.data
+				let newUser = {
+					Id: ID,
+					Username: username,
+					Password: password,
+					Firstname: firstname,
+					Lastname: lastname,
+					CapitalRemaining: 50000
+				}
+				this.props.addUser(newUser);
+				this.props.addPortfolio([])
 			})
 	}
-	handleClick(){
-		this.attemptLogin("test", "pass")
+	handleClick() {
+		this.signUp("testuser", "password", "Test", "Pass")
 	}
 	render() {
 		return (
 			<div>
-				<button onClick={this.handleClick.bind(this)}/>
+				<button onClick={this.handleClick.bind(this)} />
 			</div>
 		);
 	}

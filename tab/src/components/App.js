@@ -43,7 +43,6 @@ class App extends Component {
 		)
 	}
 	render() {
-		console.log('STATE', this.state)
 		return (
 			<div>
 				{this.state.user == null ? this.renderLogin() : this.renderContent()}

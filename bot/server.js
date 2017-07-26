@@ -15,16 +15,18 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-// Create chat bot
+const APP_ID = process.env.APP_ID || null;
+const APP_PASSWORD = process.env.APP_PASSWORD|| null;
+const LUISKey = process.env.LUIS_KEY || secrets.LUISKey
+const LUISEndpoint =  process.env.LUIS_ENDPOINT || secrets.LUISEndpoint;
+
 let connector = new builder.ChatConnector({
-    appId: null,
-    appPassword: null
+    appId: APP_ID,
+    appPassword: APP_PASSWORD
 });
 let bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
 
-const LUISKey = secrets.LUISKey;
-const LUISEndpoint = secrets.LUISEndpoint;
 
 let recognizer = new builder.LuisRecognizer(LUISEndpoint);
 bot.recognizer(recognizer);

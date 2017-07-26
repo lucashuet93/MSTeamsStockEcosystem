@@ -3,6 +3,9 @@ import Operations from './Operations'
 import TimeSeries from './TimeSeries'
 
 class Marketplace extends Component {
+	constructor(p) {	
+		super(p)
+	}
 	render() {
 		return (
 			<div>
@@ -13,7 +16,7 @@ class Marketplace extends Component {
 					<TimeSeries />
 				</div>
 				<div className="market marketOperations">
-					<Operations />
+					<Operations portfolio={this.props.portfolio}/>
 				</div>
 			</div>
 		);

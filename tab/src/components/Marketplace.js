@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Operations from './Operations'
+import TimeSeries from './TimeSeries'
 
 class Marketplace extends Component {
 	render() {
@@ -8,10 +10,10 @@ class Marketplace extends Component {
 					SearchBar
 				</div>
 				<div className="market marketTimeSeries">
-					TimeSeries
+					<TimeSeries />
 				</div>
 				<div className="market marketOperations">
-					Operations
+					<Operations />
 				</div>
 			</div>
 		);

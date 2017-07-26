@@ -17,7 +17,9 @@ class App extends Component {
 	attemptLogin(username, password){
 		loginUser(username, password)
 			.then((res) => {
-				console.log('DATA', res.data)
+				this.setState({
+					user: res.data.data[0]
+				})
 			})
 	}
 	renderContent() {

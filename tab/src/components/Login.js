@@ -4,10 +4,13 @@ class Login extends Component {
 	constructor(p) {
 		super(p)
 	}
+	handleClick(){
+		this.props.attemptLogin("test", "pass")
+	}
 	render() {
 		return (
 			<div>
-				Login
+				<button onClick={this.handleClick.bind(this)}/>
 			</div>
 		);
 	}

@@ -172,7 +172,7 @@ bot.dialog('/buy', [
                                         if (capitalRemaining > 0) {
                                             apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
                                                 .then((r) => {
-                                                    session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice}!`);
+                                                    session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
                                                 })
                                         } else {
@@ -228,7 +228,7 @@ bot.dialog('/sell', [
                                             session.send(`I'm sorry but it looks like you don't currently own any stock in ${company}`)
                                         } else if (stockFound.NumShares < amount) {
                                             session.send(`I'm sorry but it looks like you only own ${stockFound.NumShares} shares in ${company}.`)
-                                        } else if (stockFound.NumShares === amount) {
+                                        } else if (stockFound.NumShares == amount) {
                                             //sell all shares
                                             apiHelper.sellAllShares(session.userData.user.Id, company)
                                                 .then((r) => {
@@ -239,7 +239,7 @@ bot.dialog('/sell', [
                                             //update shares
                                             let prevNumShares = stockFound.NumShares;
                                             let newNumShares = prevNumShares - amount;
-                                            apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.sharePrice)
+                                            apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.SharePrice)
                                             .then((r) => {
                                                     session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
@@ -248,7 +248,6 @@ bot.dialog('/sell', [
                                     }
                                 })
                         })
-                    session.send(`You wanted to sell ${amount} shares of ${company}!`);
                 }
             }
         }

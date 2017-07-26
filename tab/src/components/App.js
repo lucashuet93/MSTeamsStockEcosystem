@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import '../assets/App.css';
 import Content from './Content'
 import Overview from './Overview'
-import Login from './Login'
-import { loginUser, createUser } from '../helpers/apiHelper'
+import Login from './Login';
 
 
 class App extends Component {
@@ -14,19 +13,15 @@ class App extends Component {
 			portfolio: null
 		}
 	}
-	attemptLogin(username, password) {
-		loginUser(username, password)
-			.then((res) => {
-				this.setState({
-					user: res.data.data[0]
-				})
-			})
+	addUser(user) {
+		this.setState({
+			user: user
+		})
 	}
-	signUp(username, password, firstname, lastname) {
-		createUser(username, password, firstname, lastname)
-			.then((res) => {
-				console.log('DATA', res.data)
-			})
+	addPortfolio(portfolio) {
+		this.setState({
+			portfolio: portfolio
+		})
 	}
 	renderContent() {
 		return (
@@ -43,11 +38,12 @@ class App extends Component {
 	renderLogin() {
 		return (
 			<div>
-				<Login attemptLogin={this.attemptLogin.bind(this)} signUp={this.signUp.bind(this)} />
+				<Login addPortfolio={this.addPortfolio.bind(this)} addUser={this.addUser.bind(this)}  />
 			</div>
 		)
 	}
 	render() {
+		console.log('STATE', this.state)
 		return (
 			<div>
 				{this.state.user == null ? this.renderLogin() : this.renderContent()}

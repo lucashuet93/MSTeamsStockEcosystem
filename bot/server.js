@@ -167,14 +167,16 @@ bot.dialog('/buy', [
                                     } else {
                                         let priceObject = priceHistory[Object.keys(priceHistory)[0]];
                                         let mostRecentPrice = priceObject['4. close']
+                                        let totalPrice = mostRecentPrice * amount;
                                         let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
                                         if (capitalRemaining > 0) {
                                             apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
                                                 .then((r) => {
-                                                    let totalPrice = mostRecentPrice * amount;
                                                     session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice}!`);
                                                     apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
                                                 })
+                                        } else {
+                                            session.send(`I'm sorry it looks like you have insufficient funds. You have $${session.userData.user.CapitalRemaining} remaining in your account but the order price is $${totalPrice.toFixed(2)}.`)
                                         }
                                     }
                                 })

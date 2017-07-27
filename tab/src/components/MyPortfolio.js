@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 
-class Holdings extends Component {
+class MyPortfolio extends Component {
 	constructor(p) {
 		super(p)
 	}
 	render() {
 		return (
 			<div>
-				Holdings
+				MyPortfolio
 			</div>
 		);
 	}
 }
 
-export default Holdings;
+export default MyPortfolio;

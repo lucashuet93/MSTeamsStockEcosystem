@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Holdings from './Holdings'
+import MyPortfolio from './MyPortfolio'
 import Marketplace from './Marketplace'
 
 class Content extends Component {
@@ -10,7 +10,7 @@ class Content extends Component {
 		return (
 			<div>
 				<div className="holdings">
-					<Holdings portfolio={this.props.portfolio} />
+					<MyPortfolio portfolio={this.props.portfolio} />
 				</div>
 				<div className="marketplace">
 					<Marketplace portfolio={this.props.portfolio} />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital } from '../helpers/apiHelper'
+import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital, updateShares } from '../helpers/apiHelper'
 import { TextField, Button, Dropdown } from 'office-ui-fabric-react'
 
 class Operations extends Component {
@@ -28,9 +28,9 @@ class Operations extends Component {
 		})
 	}
 	order() {
-		let capitalRemaining = this.props.user.CapitalRemaining - parseInt(this.state.orderTotal);
-		if (capitalRemaining >= 0) {
-			if (this.state.operationKey == 'BUY') {
+		if (this.state.operationKey == 'BUY') {
+			let capitalRemaining = this.props.user.CapitalRemaining - parseInt(this.state.orderTotal);
+			if (capitalRemaining >= 0) {
 				buyNewShares(this.props.user.Id, this.props.company, parseInt(this.state.shares), this.props.currentPrice)
 					.then((r) => {
 						updateUserCapital(this.props.user.Id, capitalRemaining)
@@ -42,8 +42,48 @@ class Operations extends Component {
 								})
 							})
 					})
+
 			} else {
-				//sell shares
+				console.log('error - insufficient funds')
+				//insufficient funds error
+			}
+		} else {
+			let amount = parseInt(this.state.shares)
+			let totalPrice = this.props.currentPrice * amount;
+			let capitalRemaining = this.props.user.CapitalRemaining + parseInt(this.state.orderTotal);
+			let stockFound = this.props.currentPortfolio.find(p => p.Company.toLowerCase() === this.props.company);
+			if (!stockFound) {
+				console.log('error - no stock in company')
+			} else if (stockFound.NumShares < amount) {
+				console.log('error - insufficient shares')
+			} else if (stockFound.NumShares == amount) {
+				sellAllShares(this.props.user.Id, this.props.company)
+					.then((r) => {
+						updateUserCapital(this.props.user.Id, capitalRemaining)
+							.then((r) => {
+								console.log('sold all shares')
+								this.setState({
+									operationKey: "BUY",
+									shares: 0,
+									orderTotal: 0.00,
+								})
+							})
+					})
+			} else {
+				let prevNumShares = stockFound.NumShares;
+				let newNumShares = prevNumShares - amount;
+				updateShares(this.props.user.Id, this.props.company, newNumShares, stockFound.SharePrice)
+					.then((r) => {
+						updateUserCapital(this.props.user.Id, capitalRemaining)
+							.then((r) => {
+								console.log('sold some shares')
+								this.setState({
+									operationKey: "BUY",
+									shares: 0,
+									orderTotal: 0.00,
+								})
+							})
+					})
 			}
 		}
 	}

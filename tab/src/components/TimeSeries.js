@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react'
+import { Spinner, SpinnerSize, Pivot, PivotItem, Label } from 'office-ui-fabric-react'
 class TimeSeries extends Component {
 	constructor(p) {
 		super(p)
@@ -24,7 +24,16 @@ class TimeSeries extends Component {
 	}
 	renderPriceInfo() {
 		return (
-			<div>Info Found</div>
+			<div className="timeSeriesContent">
+				<Pivot >
+					<PivotItem linkText='Current'>
+					</PivotItem>
+					<PivotItem linkText='Last 7 Days'>
+					</PivotItem>
+					<PivotItem linkText='Last 12 Months'>
+					</PivotItem>
+				</Pivot>
+			</div>
 		)
 	}
 	render() {

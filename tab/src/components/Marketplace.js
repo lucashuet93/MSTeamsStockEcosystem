@@ -7,7 +7,8 @@ class Marketplace extends Component {
 	constructor(p) {
 		super(p);
 		this.state = {
-			searchValue: ""
+			searchValue: "",
+			company: ""
 		}
 		this.onChange = this.onChange.bind(this)
 		this.onSearch = this.onSearch.bind(this)
@@ -20,7 +21,9 @@ class Marketplace extends Component {
     }
     onSearch(newValue) {
         let lcString = newValue.toLowerCase();
-		console.log(newValue)
+        this.setState({
+            company: lcString
+        })
     }
 	render() {
 		return (

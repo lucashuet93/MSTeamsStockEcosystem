@@ -8,29 +8,15 @@ import Login from './Login';
 class App extends Component {
 	constructor(p) {
 		super(p)
-		this.state = {
-			user: null,
-			portfolio: null
-		}
-	}
-	addUser(user) {
-		this.setState({
-			user: user
-		})
-	}
-	addPortfolio(portfolio) {
-		this.setState({
-			portfolio: portfolio
-		})
 	}
 	renderContent() {
 		return (
 			<div>
 				<div className="overview">
-					<Overview user={this.state.user} portfolio={this.state.portfolio} />
+					<Overview />
 				</div>
 				<div className="content">
-					<Content user={this.state.user} portfolio={this.state.portfolio} />
+					<Content />
 				</div>
 			</div>
 		)

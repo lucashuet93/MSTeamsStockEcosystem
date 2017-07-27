@@ -5,13 +5,14 @@ class Statistic extends Component {
 		super(p)
 	}
 	render() {
+		let value = `${this.props.symbol} ${this.props.value}`
 		return (
 			<div className="statistic">
 				<div className="statHeader">
-					Header
+					{this.props.header}
 				</div>
 				<div className="statValue">
-					$109.89
+					{value}
 				</div>
 			</div>
 		);

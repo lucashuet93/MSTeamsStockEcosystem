@@ -27,7 +27,7 @@ class App extends Component {
 		return (
 			<div>
 				<div className="overview">
-					<Overview portfolio={this.state.portfolio} />
+					<Overview user={this.state.user} portfolio={this.state.portfolio} />
 				</div>
 				<div className="content">
 					<Content portfolio={this.state.portfolio} />

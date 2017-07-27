@@ -9,6 +9,7 @@ class Operations extends Component {
 			operationKey: "BUY",
 			shares: 0,
 			orderTotal: 0.00,
+			justOrdered: null
 		}
 		this.order = this.order.bind(this)
 		this.sharesChanged = this.sharesChanged.bind(this)
@@ -39,6 +40,7 @@ class Operations extends Component {
 									operationKey: "BUY",
 									shares: 0,
 									orderTotal: 0.00,
+									justOrdered: "BUY"
 								})
 							})
 					})
@@ -66,6 +68,7 @@ class Operations extends Component {
 									operationKey: "BUY",
 									shares: 0,
 									orderTotal: 0.00,
+									justOrdered: "SELL"
 								})
 							})
 					})
@@ -81,6 +84,7 @@ class Operations extends Component {
 									operationKey: "BUY",
 									shares: 0,
 									orderTotal: 0.00,
+									justOrdered: "SELL"
 								})
 							})
 					})

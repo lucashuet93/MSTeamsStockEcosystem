@@ -10,13 +10,14 @@ class Overview extends Component {
 		}
 		this.setPortfolioValues = this.setPortfolioValues.bind(this)
 	}
-	componentWillReceiveProps(props){
-		if(props.portfolio && this.state.portfolio === null){
+	componentWillReceiveProps(props) {
+		if (props.portfolio && this.state.portfolio === null) {
 			this.setPortfolioValues(props);
 		}
 	}
 	setPortfolioValues(props) {
 		let portfolio = {
+			companies: 0,
 			holdings: 0,
 			available: this.props.user.CapitalRemaining,
 			total: this.props.user.CapitalRemaining,
@@ -48,6 +49,7 @@ class Overview extends Component {
 
 			}).then((newHoldings) => {
 				let portfolioToReturn = {
+					companies: numStocks,
 					holdings: newHoldings.toFixed(2),
 					available: props.user.CapitalRemaining.toFixed(2),
 					total: (props.user.CapitalRemaining + newHoldings).toFixed(2),
@@ -65,6 +67,7 @@ class Overview extends Component {
 		let percent = "%"
 		if (this.state.portfolio == null) {
 			portfolioToReturn = {
+				companies: "Calculating",
 				holdings: "Calculating...",
 				available: "Calculating...",
 				total: "Calculating...",
@@ -75,7 +78,8 @@ class Overview extends Component {
 		}
 		return (
 			<div>
-				<Statistic header={"Holdings"} value={portfolioToReturn.holdings} symbol={dollar} />
+				<Statistic header={"Companies"} value={portfolioToReturn.companies} symbol={""} />
+				<Statistic header={"Portfolio Value"} value={portfolioToReturn.holdings} symbol={dollar} />
 				<Statistic header={"Available"} value={portfolioToReturn.available} symbol={dollar} />
 				<Statistic header={"Growth"} value={portfolioToReturn.growth} symbol={percent} />
 				<Statistic header={"Total Value"} value={portfolioToReturn.total} symbol={dollar} />

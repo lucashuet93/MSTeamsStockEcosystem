@@ -30,7 +30,6 @@ class Overview extends Component {
 			let portPromise = new Promise((resolve, reject) => {
 				let count = 0;
 				props.portfolio.map(p => {
-					console.log('OBJ', p)
 					getStockPrice(p.Company)
 						.then((r) => {
 							let priceHistory = r.data['Time Series (1min)']
@@ -39,7 +38,6 @@ class Overview extends Component {
 								let mostRecentPrice = priceObject['4. close'];
 								let stockTotal = mostRecentPrice * p.NumShares;
 								newHoldings += stockTotal;
-								console.log(newHoldings)
 							}
 							count++;
 							if (count == numStocks) {
@@ -50,10 +48,10 @@ class Overview extends Component {
 
 			}).then((newHoldings) => {
 				let portfolioToReturn = {
-					holdings: newHoldings,
-					available: props.user.CapitalRemaining,
-					total: props.user.CapitalRemaining + newHoldings,
-					growth: (((props.user.CapitalRemaining + newHoldings) / 50000) - 1) * 100
+					holdings: newHoldings.toFixed(2),
+					available: props.user.CapitalRemaining.toFixed(2),
+					total: (props.user.CapitalRemaining + newHoldings).toFixed(2),
+					growth: ((((props.user.CapitalRemaining + newHoldings) / 50000) - 1) * 100).toFixed(2)
 				}
 				this.setState({
 					portfolio: portfolioToReturn
@@ -63,20 +61,24 @@ class Overview extends Component {
 	}
 	render() {
 		let portfolioToReturn = this.state.portfolio;
+		let dollar = "$"
+		let percent = "%"
 		if (this.state.portfolio == null) {
 			portfolioToReturn = {
-				holdings: 0,
-				available: this.props.user.CapitalRemaining,
-				total: this.props.user.CapitalRemaining,
-				growth: 0
+				holdings: "Calculating...",
+				available: "Calculating...",
+				total: "Calculating...",
+				growth: "Calculating..."
 			}
+			dollar = "";
+			percent = "";
 		}
 		return (
 			<div>
-				<Statistic header={"Holdings"} value={portfolioToReturn.holdings.toFixed(2)} symbol={"$"} />
-				<Statistic header={"Available"} value={portfolioToReturn.available.toFixed(2)} symbol={"$"} />
-				<Statistic header={"Growth"} value={portfolioToReturn.growth.toFixed(2)} symbol={"%"} />
-				<Statistic header={"Total Value"} value={portfolioToReturn.total.toFixed(2)} symbol={"$"} />
+				<Statistic header={"Holdings"} value={portfolioToReturn.holdings} symbol={dollar} />
+				<Statistic header={"Available"} value={portfolioToReturn.available} symbol={dollar} />
+				<Statistic header={"Growth"} value={portfolioToReturn.growth} symbol={percent} />
+				<Statistic header={"Total Value"} value={portfolioToReturn.total} symbol={dollar} />
 			</div>
 		);
 	}

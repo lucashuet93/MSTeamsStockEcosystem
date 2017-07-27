@@ -29,6 +29,11 @@ class Operations extends Component {
 		})
 	}
 	order() {
+		//need to immediately error if order quantity is 0 or is text
+		if(typeof(this.state.shares) == 'string' || parseInt(this.state.shares) == 0){
+			console.log('error -invalid quantity')
+			return;
+		}
 		if (this.state.operationKey == 'BUY') {
 			let capitalRemaining = this.props.user.CapitalRemaining - parseInt(this.state.orderTotal);
 			if (capitalRemaining >= 0) {
@@ -99,33 +104,37 @@ class Operations extends Component {
 				text: v
 			}
 		})
-		return (
-			<div className="operationsContainer ms-font-m">
-				<Dropdown
-					label='Operation'
-					className="ms-font-m"
-					options={options}
-					onChanged={this.operationChanged.bind(this)}
-					selectedKey={this.state.operationKey}
-				/>
-				<TextField
-					onChanged={this.sharesChanged.bind(this)}
-					label="Shares"
-					className="ms-font-m"
-					value={this.state.shares} />
-				<TextField
-					label="Order Total"
-					className="ms-font-m"
-					disabled={true}
-					value={this.state.orderTotal} />
-				<div className="operationsFooterDiv">
-					<Button
-						text="Order"
-						onClick={() => this.order()}
+		if (this.state.justOrdered !== null) {
+
+		} else {
+			return (
+				<div className="operationsContainer ms-font-m">
+					<Dropdown
+						label='Operation'
+						className="ms-font-m"
+						options={options}
+						onChanged={this.operationChanged.bind(this)}
+						selectedKey={this.state.operationKey}
 					/>
+					<TextField
+						onChanged={this.sharesChanged.bind(this)}
+						label="Shares"
+						className="ms-font-m"
+						value={this.state.shares} />
+					<TextField
+						label="Order Total"
+						className="ms-font-m"
+						disabled={true}
+						value={this.state.orderTotal} />
+					<div className="operationsFooterDiv">
+						<Button
+							text="Order"
+							onClick={() => this.order()}
+						/>
+					</div>
 				</div>
-			</div>
-		);
+			)
+		}
 	}
 }
 

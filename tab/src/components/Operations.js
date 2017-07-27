@@ -16,7 +16,7 @@ class Operations extends Component {
 	}
 	sharesChanged(text) {
 		let numShares = text;
-		let total = numShares * this.props.currentPrice;
+		let total = (numShares * this.props.currentPrice).toFixed(2)
 		this.setState({
 			shares: numShares,
 			orderTotal: total
@@ -35,7 +35,11 @@ class Operations extends Component {
 					.then((r) => {
 						updateUserCapital(this.props.user.Id, capitalRemaining)
 							.then((r) => {
-								console.log('bought and updated')
+								this.setState({
+									operationKey: "BUY",
+									shares: 0,
+									orderTotal: 0.00,
+								})
 							})
 					})
 			} else {

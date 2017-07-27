@@ -16,6 +16,7 @@ class Operations extends Component {
 		this.operationChanged = this.operationChanged.bind(this)
 		this.renderMessage = this.renderMessage.bind(this)
 		this.renderForm = this.renderForm.bind(this)
+		this.sendStatusMessage = this.sendStatusMessage.bind(this)
 	}
 	sharesChanged(text) {
 		let numShares = text;
@@ -28,6 +29,17 @@ class Operations extends Component {
 	operationChanged(obj) {
 		this.setState({
 			operationKey: obj.text
+		})
+	}
+	sendStatusMessage() {
+		let status = new Promise((resolve, reject) => {
+			setTimeout(() => {
+				resolve()
+			}, 2000)
+		}).then(() => {
+			this.setState({
+				justOrdered: null
+			})
 		})
 	}
 	order() {
@@ -49,6 +61,7 @@ class Operations extends Component {
 									orderTotal: 0.00,
 									justOrdered: "BUY"
 								})
+								this.sendStatusMessage()
 							})
 					})
 
@@ -77,6 +90,7 @@ class Operations extends Component {
 									orderTotal: 0.00,
 									justOrdered: "SELL"
 								})
+								this.sendStatusMessage()
 							})
 					})
 			} else {
@@ -93,6 +107,7 @@ class Operations extends Component {
 									orderTotal: 0.00,
 									justOrdered: "SELL"
 								})
+								this.sendStatusMessage()
 							})
 					})
 			}

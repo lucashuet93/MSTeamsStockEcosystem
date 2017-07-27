@@ -114,7 +114,7 @@ class Operations extends Component {
 		}
 	}
 	renderMessage() {
-		let message = this.state.justOrdered == 'SELL' ? 'SOLD!' : "SUCCESS!";
+		let message = this.state.justOrdered == 'SELL' ? 'SOLD!' : "PURCHASED!";
 		let messageClass = this.state.justOrdered == 'SELL' ? 'soldMessage' : "successMessage";
 		return (
 			<div className={messageClass}>

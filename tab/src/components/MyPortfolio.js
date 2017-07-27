@@ -20,8 +20,8 @@ let columns = [
 		isResizable: true
 	},
 	{
-		key: 'averageInitialPrice',
-		name: 'Average Initial Price',
+		key: 'purchasePrice',
+		name: 'Purchase Price',
 		fieldName: 'SharePrice',
 		minWidth: 100,
 		maxWidth: 180,

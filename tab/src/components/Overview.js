@@ -24,7 +24,9 @@ class Overview extends Component {
 			growth: 0
 		}
 		if (props.portfolio.length == 0) {
-			return portfolio;
+			this.setState({
+				portfolio: portfolio
+			})
 		} else {
 			let newHoldings = 0;
 			let numStocks = props.portfolio.length;

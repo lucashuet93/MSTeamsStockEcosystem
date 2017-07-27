@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getPortfolio, buyNewShares, sellAllShares, updateShares } from '../helpers/apiHelper'
+import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital } from '../helpers/apiHelper'
 import { TextField, Button, Dropdown } from 'office-ui-fabric-react'
 
 class Operations extends Component {
@@ -7,8 +7,8 @@ class Operations extends Component {
 		super(p)
 		this.state = {
 			operationKey: "BUY",
-			shares: "",
-			orderTotal: "",
+			shares: 0,
+			orderTotal: 0.00,
 		}
 		this.order = this.order.bind(this)
 		this.sharesChanged = this.sharesChanged.bind(this)
@@ -22,22 +22,35 @@ class Operations extends Component {
 			orderTotal: total
 		})
 	}
-    operationChanged(obj) {
-        this.setState({
-            operationKey: obj.text
-        })
-    }
-	order(){
-		console.log(this.state)
+	operationChanged(obj) {
+		this.setState({
+			operationKey: obj.text
+		})
+	}
+	order() {
+		let capitalRemaining = this.props.user.CapitalRemaining - this.state.orderTotal;
+		if (capitalRemaining >= 0) {
+			if (this.state.operationKey == 'BUY') {
+				buyNewShares(this.props.user.Id, this.props.company, this.state.shares, this.props.currentPrice)
+					.then((r) => {
+						updateUserCapital(this.props.user.Id, capitalRemaining)
+							.then((r) => {
+								console.log('bought and updated')
+							})
+					})
+			} else {
+				//sell shares
+			}
+		}
 	}
 	render() {
-        let vals = ["BUY", "SELL"]
-        let options = vals.map(v => {
-            return {
-                key: v,
-                text: v
-            }
-        })
+		let vals = ["BUY", "SELL"]
+		let options = vals.map(v => {
+			return {
+				key: v,
+				text: v
+			}
+		})
 		return (
 			<div className="operationsContainer ms-font-m">
 				<Dropdown

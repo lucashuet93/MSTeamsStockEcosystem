@@ -12,7 +12,8 @@ class Marketplace extends Component {
 			currentPrice: null,
 			monthlyTimeSeries: null,
 			dailyTimeSeries: null,
-			searching: false
+			searching: false,
+			symbol: null
 		}
 		this.onChange = this.onChange.bind(this)
 		this.onSearch = this.onSearch.bind(this)
@@ -28,7 +29,8 @@ class Marketplace extends Component {
 			searching: true,
 			currentPrice: null,
 			monthlyTimeSeries: null,
-			dailyTimeSeries: null
+			dailyTimeSeries: null,
+			symbol: company
 		})
 		getMinuteTimeSeries(company)
 			.then((r) => {
@@ -84,7 +86,7 @@ class Marketplace extends Component {
 					<TimeSeries searching={this.state.searching} currentPrice={this.state.currentPrice} dailyTimeSeries={this.state.dailyTimeSeries} monthlyTimeSeries={this.state.monthlyTimeSeries}/>
 				</div>
 				<div className="market marketOperations">
-					<Operations currentPrice={this.state.currentPrice} currentportfolio={this.props.portfolio} />
+					<Operations company={this.state.symbol} user={this.props.user} currentPrice={this.state.currentPrice} currentPortfolio={this.props.portfolio} />
 				</div>
 			</div>
 		);

@@ -13,7 +13,7 @@ class Content extends Component {
 					<MyPortfolio user={this.props.user} portfolio={this.props.portfolio} />
 				</div>
 				<div className="marketplace">
-					<Marketplace portfolio={this.props.portfolio} />
+					<Marketplace portfolio={this.props.portfolio} user={this.props.user}/>
 				</div>
 			</div>
 		);

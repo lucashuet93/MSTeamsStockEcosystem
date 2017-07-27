@@ -16,9 +16,9 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
 
 const APP_ID = process.env.APP_ID || null;
-const APP_PASSWORD = process.env.APP_PASSWORD|| null;
+const APP_PASSWORD = process.env.APP_PASSWORD || null;
 const LUISKey = process.env.LUIS_KEY || secrets.LUISKey
-const LUISEndpoint =  process.env.LUIS_ENDPOINT || secrets.LUISEndpoint;
+const LUISEndpoint = process.env.LUIS_ENDPOINT || secrets.LUISEndpoint;
 
 let connector = new builder.ChatConnector({
     appId: APP_ID,
@@ -172,31 +172,14 @@ bot.dialog('/buy', [
                                         let totalPrice = mostRecentPrice * amount;
                                         let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
                                         if (capitalRemaining > 0) {
-                                            let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
-                                            if (stockFound) {
-                                                let prevTotal = stockFound.NumShares * stockFound.SharePrice;
-                                                let newTotal = prevTotal + totalPrice;
-                                                let newNumShares = stockFound.NumShares + parseInt(amount);
-                                                //I realize this isnt the best way to handle this, will store multiple share prices later on
-                                                let avgSharePrice = newTotal / newNumShares;
-                                                apiHelper.updateShares(session.userData.user.Id, company, newNumShares, avgSharePrice)
-                                                    .then((r) => {
-                                                        apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
-                                                            .then((r) => {
-                                                                setLocalUserCapital(session, capitalRemaining)
-                                                                session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
-                                                            })
-                                                    })
-                                            } else {
-                                                apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
-                                                    .then((r) => {
-                                                        apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
-                                                            .then((r) => {
-                                                                setLocalUserCapital(session, capitalRemaining)
-                                                                session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
-                                                            })
-                                                    })
-                                            }
+                                            apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
+                                                .then((r) => {
+                                                    apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                        .then((r) => {
+                                                            setLocalUserCapital(session, capitalRemaining)
+                                                            session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                        })
+                                                })
                                         } else {
                                             session.send(`I'm sorry it looks like you have insufficient funds. You have $${session.userData.user.CapitalRemaining} remaining in your account but the order price is $${totalPrice.toFixed(2)}.`)
                                         }

@@ -9,7 +9,7 @@ class Statistic extends Component {
 		return (
 			<div className="statistic">
 				<div className="statHeader">
-					<span className="ms-font-xxl ms-fontWeight-semibold">{this.props.header}</span>
+					<span className="ms-font-xxl ms-fontWeight-regular">{this.props.header}</span>
 				</div>
 				<div className="statValue">
 					<span className="ms-font-xl">{value}</span>

@@ -8,7 +8,7 @@ let columns = [
 		name: 'Company',
 		fieldName: 'Company',
 		minWidth: 100,
-		maxWidth: 200,
+		maxWidth: 180,
 		isResizable: true
 	},
 	{
@@ -16,7 +16,7 @@ let columns = [
 		name: '# Shares',
 		fieldName: 'NumShares',
 		minWidth: 100,
-		maxWidth: 200,
+		maxWidth: 180,
 		isResizable: true
 	},
 	{
@@ -24,7 +24,7 @@ let columns = [
 		name: 'Average Initial Price',
 		fieldName: 'SharePrice',
 		minWidth: 100,
-		maxWidth: 200,
+		maxWidth: 180,
 		isResizable: true
 	},
 	{
@@ -32,7 +32,7 @@ let columns = [
 		name: 'Current Price',
 		fieldName: 'CurrentPrice',
 		minWidth: 100,
-		maxWidth: 200,
+		maxWidth: 180,
 		isResizable: true
 	},
 	{
@@ -40,7 +40,7 @@ let columns = [
 		name: 'Growth',
 		fieldName: 'Growth',
 		minWidth: 100,
-		maxWidth: 200,
+		maxWidth: 180,
 		isResizable: true
 	},
 ];

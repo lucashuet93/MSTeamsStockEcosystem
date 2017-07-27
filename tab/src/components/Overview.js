@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Statistic from './Statistic';
-import { getStockPrice } from '../helpers/stockHelper'
+import { getMinuteTimeSeries } from '../helpers/stockHelper'
 
 class Overview extends Component {
 	constructor(p) {
@@ -31,7 +31,7 @@ class Overview extends Component {
 			let portPromise = new Promise((resolve, reject) => {
 				let count = 0;
 				props.portfolio.map(p => {
-					getStockPrice(p.Company)
+					getMinuteTimeSeries(p.Company)
 						.then((r) => {
 							let priceHistory = r.data['Time Series (1min)']
 							if (priceHistory) {

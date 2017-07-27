@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DetailsList, CommandButton, Link, CheckboxVisibility, IColumn, SearchBox } from 'office-ui-fabric-react';
-import { getStockPrice } from '../helpers/stockHelper'
+import { getMinuteTimeSeries } from '../helpers/stockHelper'
 
 let columns = [
 	{
@@ -67,7 +67,7 @@ class MyPortfolio extends Component {
 			let portPromise = new Promise((resolve, reject) => {
 				let count = 0;
 				props.portfolio.map(p => {
-					getStockPrice(p.Company)
+					getMinuteTimeSeries(p.Company)
 						.then((r) => {
 							let priceHistory = r.data['Time Series (1min)']
 							let stockObj = {

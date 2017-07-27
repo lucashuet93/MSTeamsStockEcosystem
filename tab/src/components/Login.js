@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
 import { TextField, Button } from 'office-ui-fabric-react'
+import { test } from '../actions';
 
 class Login extends Component {
 	constructor(p) {
@@ -17,6 +20,7 @@ class Login extends Component {
 		this.signUp = this.signUp.bind(this);
 	}
 	attemptLogin() {
+		this.props.test();
 		loginUser(this.state.loginUsername, this.state.loginPassword)
 			.then((res) => {
 				if (res.data.data.length > 0) {
@@ -141,5 +145,10 @@ class Login extends Component {
 		);
 	}
 }
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({
+		test: test
+	}, dispatch)
+}
 
-export default Login;
+export default connect(null, mapDispatchToProps)(Login);

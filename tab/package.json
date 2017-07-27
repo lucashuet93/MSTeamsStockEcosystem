@@ -6,7 +6,9 @@
     "axios": "^0.16.2",
     "office-ui-fabric-react": "^4.23.0",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "react-redux": "^5.0.5",
+    "redux": "^3.7.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.10"

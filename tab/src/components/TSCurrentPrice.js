@@ -5,10 +5,25 @@ class TSCurrentPrice extends Component {
 		super(p)
 	}
 	render() {
-		console.log('P', this.props.price)
+		console.log(this.props)
 		return (
-			<div>
-				TSCurrentPrice
+			<div className="tSeriesDiv">
+				<div className="timeSeriesCurrentPrice cpLeft">
+					<div className="tsCurrentPriceHeader">
+						<span className="ms-font-xl">Price</span>
+					</div>
+					<div className="tsCurrentPriceStat">
+						<span className="ms-font-xxl">{this.props.price}</span>
+					</div>
+				</div>
+				<div className="timeSeriesCurrentPrice">
+					<div className="tsCurrentPriceHeader">
+						<span className="ms-font-xl">Growth</span>
+					</div>
+					<div className="tsCurrentPriceStat">
+						<span className="ms-font-xxl">{this.props.growth}</span>
+					</div>
+				</div>
 			</div>
 		);
 	}

@@ -28,11 +28,15 @@ class TimeSeries extends Component {
 		}
 	}
 	renderPriceInfo() {
+		let keys = Object.keys(this.props.dailyTimeSeries);
+		let yesterday = this.props.dailyTimeSeries[keys[1]];
+		let yesterdayClose = yesterday['4. close']
+		let growth = (((this.props.currentPrice / yesterdayClose) - 1) * 100).toFixed(2)
 		return (
 			<div className="timeSeriesContent">
 				<Pivot >
-					<PivotItem linkText='Current'>
-						<TSCurrentPrice price={this.props.currentPrice}/>
+					<PivotItem linkText='Today'>
+						<TSCurrentPrice price={this.props.currentPrice} growth={growth}/>
 					</PivotItem>
 					<PivotItem linkText='Last 7 Days'>
 						<TSDays series={this.props.dailyTimeSeries} />

@@ -15,29 +15,6 @@
   vertical-align: top;
   width: 65%;
 }
-.marketplace{
-  display: inline-block;
-  vertical-align: top;
-  width: 34%;
-  border: 1px solid tomato;
-}
-.market{
-  display: block;
-}
-.marketSearch{
-  width: 100%;
-  border: 1px solid black;
-}
-.marketTimeSeries{
-  width: 100%;
-  height: 20em;
-  border: 1px solid black;
-}
-.marketOperations{
-  width: 100%;
-  height: 12em;
-  border: 1px solid black;
-}
 .statistic{
   display: inline-block;
   width: 19.85%;
@@ -96,9 +73,46 @@
   padding: 1em;
   padding-right: 3em;
 }
+.marketplace{
+  display: inline-block;
+  vertical-align: top;
+  width: 34%;
+  margin-top: 1em;
+  border: 1px solid tomato;
+}
+.market{
+  display: block;
+}
+.marketSearch{
+  width: 100%;
+}
+.marketTimeSeries{
+  width: 100%;
+  height: 20em;
+  border: 1px solid black;
+}
+.marketOperations{
+  width: 100%;
+  height: 12em;
+  border: 1px solid black;
+}
 .loadingSpinner{
   margin-top: 8em;
 }
 .timeSeriesContent{
   text-align: center;
+}
+.timeSeriesCurrentPrice {
+  display: inline-block;
+  margin-top: 1em;
+  padding-top: 1em;
+  width: 50%;
+  height: 14em;
+}
+.tsCurrentPriceStat{
+  margin-top: 2em;
+}
+.cpLeft{
+  width: 49.75%;
+  border-right: 1px solid lightgray
 }

@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import { Spinner, SpinnerSize, Pivot, PivotItem, Label } from 'office-ui-fabric-react'
+import TSCurrentPrice from './TSCurrentPrice'
+import TSDays from './TSDays'
+import TSMonths from './TSMonths'
+
+
 class TimeSeries extends Component {
 	constructor(p) {
 		super(p)
@@ -27,10 +32,13 @@ class TimeSeries extends Component {
 			<div className="timeSeriesContent">
 				<Pivot >
 					<PivotItem linkText='Current'>
+						<TSCurrentPrice price={this.props.currentPrice}/>
 					</PivotItem>
 					<PivotItem linkText='Last 7 Days'>
+						<TSDays series={this.props.dailyTimeSeries} />
 					</PivotItem>
 					<PivotItem linkText='Last 12 Months'>
+						<TSMonths series={this.props.monthlyTimeSeries} />
 					</PivotItem>
 				</Pivot>
 			</div>

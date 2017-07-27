@@ -55,8 +55,8 @@ class MyPortfolio extends Component {
         let self = this;
         let fieldContent = item[column.fieldName];
         switch (column.key) {
-            case 'turns':
-                return <span className='ms-font-m-plus'>{fieldContent.turns.length}</span>;
+            case 'company':
+                return <span className='ms-font-m-plus'>{fieldContent.toUpperCase()}</span>;
             default:
                 return <span className='ms-font-m-plus'>{fieldContent}</span>;
         }

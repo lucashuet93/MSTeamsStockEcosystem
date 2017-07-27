@@ -13,13 +13,12 @@
 .holdings{
   display: inline-block;
   vertical-align: top;
-  width: 60%;
-  border: 1px solid dodgerblue;
+  width: 65%;
 }
 .marketplace{
   display: inline-block;
   vertical-align: top;
-  width: 39%;
+  width: 34%;
   border: 1px solid tomato;
 }
 .market{
@@ -93,4 +92,7 @@
   position: absolute;
   width: 25.9em;
   bottom: 0;
+}
+.myPortfolio{
+  padding: 1em;
 }

@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-
+import { Spinner, SpinnerSize} from 'office-ui-fabric-react'
 class TimeSeries extends Component {
 	constructor(p){
 		super(p)
 	}
 	renderLoading(){
 		return (
-			<div>Loading</div>
+			<div>
+				<Spinner
+					size={SpinnerSize.large}
+					label="Loading Stock Info"
+					className="ms-font-m loadingSpinner"
+				/>
+			</div>
 		)
 	}
 	renderPriceInfo(){
@@ -16,9 +22,6 @@ class TimeSeries extends Component {
 	}
 	render() {
 		let allPriceInfo = this.props.currentPrice && this.props.dailyTimeSeries && this.props.monthlyTimeSeries ? true : false;
-		if(allPriceInfo === true){
-			console.log('TS', this.props)
-		}
 		return (
 			<div>
 				{allPriceInfo === true ? this.renderPriceInfo() : this.renderLoading()}

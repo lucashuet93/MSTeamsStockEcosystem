@@ -1,3 +1,6 @@
+
+import { LOAD_PORTFOLIO, LOAD_USER } from '../actions'
+
 const initialState = {
     portfolio: null,
     user: null
@@ -5,7 +8,10 @@ const initialState = {
 
 const AppReducer = (state = initialState, action) => {
     switch(action.type) {
-        case "TEST":
+        case LOAD_PORTFOLIO:
+            console.log(action)
+            return state;
+        case LOAD_USER:
             console.log(action)
             return state;
         default:

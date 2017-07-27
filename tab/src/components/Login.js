@@ -20,7 +20,6 @@ class Login extends Component {
 		this.signUp = this.signUp.bind(this);
 	}
 	attemptLogin() {
-		this.props.test();
 		loginUser(this.state.loginUsername, this.state.loginPassword)
 			.then((res) => {
 				if (res.data.data.length > 0) {

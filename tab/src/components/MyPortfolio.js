@@ -73,7 +73,7 @@ class MyPortfolio extends Component {
 							let stockObj = {
 								Company: p.Company,
 								NumShares: p.NumShares,
-								SharePrice: p.SharePrice,
+								SharePrice: p.SharePrice.toFixed(2),
 								CurrentPrice: "N/A",
 								Growth: "N/A",
 							}
@@ -81,7 +81,7 @@ class MyPortfolio extends Component {
 								let priceObject = priceHistory[Object.keys(priceHistory)[0]];
 								let mostRecentPrice = priceObject['4. close'];
 								let stockTotal = mostRecentPrice * p.NumShares;
-								stockObj.CurrentPrice = mostRecentPrice;
+								stockObj.CurrentPrice = parseFloat(mostRecentPrice).toFixed(2);
 								stockObj.Growth = (((stockTotal / (p.NumShares * p.SharePrice)) - 1) * 100).toFixed(2)
 							}
 							count++;

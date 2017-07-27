@@ -47,9 +47,6 @@ let columns = [
 class MyPortfolio extends Component {
 	constructor(p) {
 		super(p)
-		this.state = {
-			searchValue: ""
-		}
 	}
 	renderItemColumn(item, index, column) {
         let self = this;
@@ -73,11 +70,6 @@ class MyPortfolio extends Component {
 		console.log(stockItems)
         return (
             <div className="myPortfolio">
-                <SearchBox
-                    className="ms-font-m-plus"
-                    onChange={(newValue) => this.onChange(newValue)}
-                    onSearch={(newValue) => this.onChange(newValue)}
-                />
                 <DetailsList
                     className="ms-font-m-plus"
                     items={stockItems}

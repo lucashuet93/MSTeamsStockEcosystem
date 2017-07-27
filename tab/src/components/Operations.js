@@ -15,7 +15,7 @@ class Operations extends Component {
 		this.operationChanged = this.operationChanged.bind(this)
 	}
 	sharesChanged(text) {
-		let numShares = parseInt(text)
+		let numShares = text;
 		let total = numShares * this.props.currentPrice;
 		this.setState({
 			shares: numShares,
@@ -28,10 +28,10 @@ class Operations extends Component {
 		})
 	}
 	order() {
-		let capitalRemaining = this.props.user.CapitalRemaining - this.state.orderTotal;
+		let capitalRemaining = this.props.user.CapitalRemaining - parseInt(this.state.orderTotal);
 		if (capitalRemaining >= 0) {
 			if (this.state.operationKey == 'BUY') {
-				buyNewShares(this.props.user.Id, this.props.company, this.state.shares, this.props.currentPrice)
+				buyNewShares(this.props.user.Id, this.props.company, parseInt(this.state.shares), this.props.currentPrice)
 					.then((r) => {
 						updateUserCapital(this.props.user.Id, capitalRemaining)
 							.then((r) => {

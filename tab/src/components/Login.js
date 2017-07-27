@@ -43,6 +43,12 @@ class Login extends Component {
 	render() {
 		return (
 			<div>
+				<div className="form">
+					<div className="loginForm">
+					</div>
+					<div className="signupForm">
+					</div>
+				</div>
 				<button onClick={this.handleClick.bind(this)} />
 			</div>
 		);

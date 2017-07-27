@@ -59,3 +59,23 @@
   padding-top: 2em;
   width: 100;
 }
+.form{
+  height: 35em;
+  width: 60em;
+  border: 1px solid black;
+  margin:auto;
+  margin-top: 8em;
+}
+.signupForm{
+  display: inline-block;
+  vertical-align: top;
+  width: 29.9em;
+  border-left: 1px solid dodgerblue;
+  height: 35em;
+}
+.loginForm{
+  display: inline-block;
+  vertical-align: top;
+  width: 29.9em;
+  height: 35em;
+}

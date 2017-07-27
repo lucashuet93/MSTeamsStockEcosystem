@@ -30,7 +30,7 @@ class App extends Component {
 					<Overview user={this.state.user} portfolio={this.state.portfolio} />
 				</div>
 				<div className="content">
-					<Content portfolio={this.state.portfolio} />
+					<Content user={this.state.user} portfolio={this.state.portfolio} />
 				</div>
 			</div>
 		)

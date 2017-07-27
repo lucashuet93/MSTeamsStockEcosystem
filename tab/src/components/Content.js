@@ -10,7 +10,7 @@ class Content extends Component {
 		return (
 			<div>
 				<div className="holdings">
-					<MyPortfolio portfolio={this.props.portfolio} />
+					<MyPortfolio user={this.props.user} portfolio={this.props.portfolio} />
 				</div>
 				<div className="marketplace">
 					<Marketplace portfolio={this.props.portfolio} />

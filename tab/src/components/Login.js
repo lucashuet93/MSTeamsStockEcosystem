@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
 import { TextField, Button } from 'office-ui-fabric-react'
-import { test } from '../actions';
+import { loadPortfolio, loadUser } from '../actions';
 
 class Login extends Component {
 	constructor(p) {
@@ -27,8 +27,8 @@ class Login extends Component {
 					getPortfolio(foundUser.Id)
 						.then((r) => {
 							let portfolio = r.data.data;
-							this.props.addUser(foundUser)
-							this.props.addPortfolio(portfolio)
+							this.props.loadUser(foundUser)
+							this.props.loadPortfolio(portfolio)
 						})
 				}
 			})
@@ -49,8 +49,8 @@ class Login extends Component {
 					Lastname: lastname,
 					CapitalRemaining: 50000
 				}
-				this.props.addUser(newUser);
-				this.props.addPortfolio([])
+				this.props.loadUser(newUser);
+				this.props.loadPortfolio([])
 			})
 	}
 	loginUsernameChanged(text) {
@@ -146,7 +146,8 @@ class Login extends Component {
 }
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({
-		test: test
+		loadPortfolio: loadPortfolio,
+		loadUser: loadUser
 	}, dispatch)
 }
 

@@ -38,7 +38,7 @@ class App extends Component {
 	renderLogin() {
 		return (
 			<div>
-				<Login addPortfolio={this.addPortfolio.bind(this)} addUser={this.addUser.bind(this)}  />
+				<Login />
 			</div>
 		)
 	}

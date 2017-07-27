@@ -8,8 +8,7 @@ const initialState = {
 const UserReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD_USER:
-            console.log(action)
-            return state;
+		return {...state, user: action.user}
         default:
             return state;
     }

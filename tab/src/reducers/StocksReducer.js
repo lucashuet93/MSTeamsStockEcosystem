@@ -8,8 +8,7 @@ const initialState = {
 const StocksReducer = (state = initialState, action) => {
     switch(action.type) {
         case LOAD_PORTFOLIO:
-            console.log(action)
-            return state;
+			return { ...state, portfolio: action.portfolio }
         default:
             return state;
     }

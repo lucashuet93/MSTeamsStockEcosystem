@@ -62,20 +62,35 @@
 .form{
   height: 35em;
   width: 60em;
-  border: 1px solid black;
+  border: 1px solid lightgray;
   margin:auto;
   margin-top: 8em;
 }
 .signupForm{
+  padding: 2em;
   display: inline-block;
+  position: relative;
   vertical-align: top;
-  width: 29.9em;
-  border-left: 1px solid dodgerblue;
-  height: 35em;
+  width: 25.9em;
+  border-left: 1px solid lightgray;
+  height: 31em;
 }
 .loginForm{
+  padding: 2em;
   display: inline-block;
+  position: relative;
   vertical-align: top;
-  width: 29.9em;
-  height: 35em;
+  width: 25.9em;
+  height: 31em;
+}
+.formTitleDiv{
+  text-align: center;
+  margin-bottom: 1em;
+}
+.formFooterDiv{
+  text-align: center;
+  padding-bottom: 2em;
+  position: absolute;
+  width: 25.9em;
+  bottom: 0;
 }

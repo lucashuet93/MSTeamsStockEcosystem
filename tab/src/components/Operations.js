@@ -39,9 +39,10 @@ class Operations extends Component {
             }
         })
 		return (
-			<div className="operationsContainer">
+			<div className="operationsContainer ms-font-m">
 				<Dropdown
 					label='Operation'
+					className="ms-font-m"
 					options={options}
 					onChanged={this.operationChanged.bind(this)}
 					selectedKey={this.state.operationKey}
@@ -56,9 +57,9 @@ class Operations extends Component {
 					className="ms-font-m"
 					disabled={true}
 					value={this.state.orderTotal} />
-				<div className="formFooterDiv">
+				<div className="operationsFooterDiv">
 					<Button
-						text="Sign Up"
+						text="Order"
 						onClick={() => this.order()}
 					/>
 				</div>

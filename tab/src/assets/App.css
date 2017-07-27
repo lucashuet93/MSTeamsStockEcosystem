@@ -94,7 +94,8 @@
 }
 .marketOperations{
   width: 100%;
-  height: 12em;
+  height: 18em;
+  position: relative;
   border: 1px solid lightgray;
 }
 .loadingSpinner{
@@ -116,4 +117,14 @@
 .cpLeft{
   width: 49.75%;
   border-right: 1px solid lightgray
+}
+.operationsContainer{
+  padding: 1em;
+}
+.operationsFooterDiv{
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  padding-bottom: 1em;
+  bottom: 0;
 }

@@ -14,6 +14,8 @@ class Operations extends Component {
 		this.order = this.order.bind(this)
 		this.sharesChanged = this.sharesChanged.bind(this)
 		this.operationChanged = this.operationChanged.bind(this)
+		this.renderMessage = this.renderMessage.bind(this)
+		this.renderForm = this.renderForm.bind(this)
 	}
 	sharesChanged(text) {
 		let numShares = text;
@@ -30,8 +32,8 @@ class Operations extends Component {
 	}
 	order() {
 		//need to immediately error if order quantity is 0 or is text
-		if(typeof(this.state.shares) == 'string' || parseInt(this.state.shares) == 0){
-			console.log('error -invalid quantity')
+		if (parseInt(this.state.shares) == 0) {
+			console.log('error -zero quantity')
 			return;
 		}
 		if (this.state.operationKey == 'BUY') {
@@ -58,7 +60,7 @@ class Operations extends Component {
 			let amount = parseInt(this.state.shares)
 			let totalPrice = this.props.currentPrice * amount;
 			let capitalRemaining = this.props.user.CapitalRemaining + parseInt(this.state.orderTotal);
-			let stockFound = this.props.currentPortfolio.find(p => p.Company.toLowerCase() === this.props.company);
+			let stockFound = this.props.currentPortfolio.find(p => p.Company.toLowerCase() === this.props.company.toLowerCase());
 			if (!stockFound) {
 				console.log('error - no stock in company')
 			} else if (stockFound.NumShares < amount) {
@@ -96,7 +98,17 @@ class Operations extends Component {
 			}
 		}
 	}
-	render() {
+	renderMessage() {
+		let message = this.state.justOrdered == 'SELL' ? 'SOLD!' : "SUCCESS!";
+		let messageClass = this.state.justOrdered == 'SELL' ? 'soldMessage' : "successMessage";
+		return (
+			<div className={messageClass}>
+				<span className='ms-font-su ms-fontWeight-semibold'>{message}</span>
+			</div>
+		)
+
+	}
+	renderForm() {
 		let vals = ["BUY", "SELL"]
 		let options = vals.map(v => {
 			return {
@@ -104,37 +116,40 @@ class Operations extends Component {
 				text: v
 			}
 		})
-		if (this.state.justOrdered !== null) {
-
-		} else {
-			return (
-				<div className="operationsContainer ms-font-m">
-					<Dropdown
-						label='Operation'
-						className="ms-font-m"
-						options={options}
-						onChanged={this.operationChanged.bind(this)}
-						selectedKey={this.state.operationKey}
+		return (
+			<div>
+				<Dropdown
+					label='Operation'
+					className="ms-font-m"
+					options={options}
+					onChanged={this.operationChanged.bind(this)}
+					selectedKey={this.state.operationKey}
+				/>
+				<TextField
+					onChanged={this.sharesChanged.bind(this)}
+					label="Shares"
+					className="ms-font-m"
+					value={this.state.shares} />
+				<TextField
+					label="Order Total"
+					className="ms-font-m"
+					disabled={true}
+					value={this.state.orderTotal} />
+				<div className="operationsFooterDiv">
+					<Button
+						text="Order"
+						onClick={() => this.order()}
 					/>
-					<TextField
-						onChanged={this.sharesChanged.bind(this)}
-						label="Shares"
-						className="ms-font-m"
-						value={this.state.shares} />
-					<TextField
-						label="Order Total"
-						className="ms-font-m"
-						disabled={true}
-						value={this.state.orderTotal} />
-					<div className="operationsFooterDiv">
-						<Button
-							text="Order"
-							onClick={() => this.order()}
-						/>
-					</div>
 				</div>
-			)
-		}
+			</div>
+		)
+	}
+	render() {
+		return (
+			<div className="operationsContainer ms-font-m">
+				{this.state.justOrdered == null ? this.renderForm() : this.renderMessage()}
+			</div>
+		)
 	}
 }
 

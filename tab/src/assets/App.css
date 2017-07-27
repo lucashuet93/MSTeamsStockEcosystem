@@ -128,3 +128,14 @@
   padding-bottom: 1em;
   bottom: 0;
 }
+.successMessage{
+  text-align: center;
+  padding-top: 5em;
+  color: #00C853;
+}
+.soldMessage{
+  text-align: center;
+  padding-top: 5em;
+  color: tomato;
+
+}

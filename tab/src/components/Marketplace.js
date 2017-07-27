@@ -84,7 +84,7 @@ class Marketplace extends Component {
 					<TimeSeries searching={this.state.searching} currentPrice={this.state.currentPrice} dailyTimeSeries={this.state.dailyTimeSeries} monthlyTimeSeries={this.state.monthlyTimeSeries}/>
 				</div>
 				<div className="market marketOperations">
-					<Operations portfolio={this.props.portfolio} />
+					<Operations currentPrice={this.state.currentPrice} currentportfolio={this.props.portfolio} />
 				</div>
 			</div>
 		);

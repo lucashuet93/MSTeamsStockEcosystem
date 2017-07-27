@@ -11,7 +11,8 @@ class Marketplace extends Component {
 			searchValue: "",
 			currentPrice: null,
 			monthlyTimeSeries: null,
-			dailyTimeSeries: null
+			dailyTimeSeries: null,
+			searching: false
 		}
 		this.onChange = this.onChange.bind(this)
 		this.onSearch = this.onSearch.bind(this)
@@ -23,6 +24,12 @@ class Marketplace extends Component {
 		})
 	}
 	onSearch(company) {
+		this.setState({
+			searching: true,
+			currentPrice: null,
+			monthlyTimeSeries: null,
+			dailyTimeSeries: null
+		})
 		getMinuteTimeSeries(company)
 			.then((r) => {
 				let priceHistory = r.data['Time Series (1min)']
@@ -32,6 +39,11 @@ class Marketplace extends Component {
 				this.setState({
 					currentPrice: currentPrice
 				})
+				if(this.state.currentPrice !== null && this.state.monthlyTimeSeries !== null && this.state.dailyTimeSeries !== null){
+					this.setState({
+						searching: false
+					})
+				}
 			})
 		getDailyTimeSeries(company)
 			.then((r) => {
@@ -39,6 +51,11 @@ class Marketplace extends Component {
 				this.setState({
 					dailyTimeSeries: priceHistory
 				})
+				if(this.state.currentPrice !== null && this.state.monthlyTimeSeries !== null && this.state.dailyTimeSeries !== null){
+					this.setState({
+						searching: false
+					})
+				}
 			})
 		getMonthlyTimeSeries(company)
 			.then((r) => {
@@ -46,6 +63,11 @@ class Marketplace extends Component {
 				this.setState({
 					monthlyTimeSeries: priceHistory
 				})
+				if(this.state.currentPrice !== null && this.state.monthlyTimeSeries !== null && this.state.dailyTimeSeries !== null){
+					this.setState({
+						searching: false
+					})
+				}
 			})
 	}
 	render() {
@@ -59,7 +81,7 @@ class Marketplace extends Component {
 					/>
 				</div>
 				<div className="market marketTimeSeries">
-					<TimeSeries currentPrice={this.state.currentPrice} dailyTimeSeries={this.state.dailyTimeSeries} monthlyTimeSeries={this.state.monthlyTimeSeries}/>
+					<TimeSeries searching={this.state.searching} currentPrice={this.state.currentPrice} dailyTimeSeries={this.state.dailyTimeSeries} monthlyTimeSeries={this.state.monthlyTimeSeries}/>
 				</div>
 				<div className="market marketOperations">
 					<Operations portfolio={this.props.portfolio} />

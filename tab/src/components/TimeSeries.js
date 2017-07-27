@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import { Spinner, SpinnerSize} from 'office-ui-fabric-react'
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react'
 class TimeSeries extends Component {
-	constructor(p){
+	constructor(p) {
 		super(p)
 	}
-	renderLoading(){
-		return (
-			<div>
-				<Spinner
-					size={SpinnerSize.large}
-					label="Loading Stock Info"
-					className="ms-font-m loadingSpinner"
-				/>
-			</div>
-		)
+	renderLoading() {
+		if (this.props.searching == true) {
+			return (
+				<div>
+					<Spinner
+						size={SpinnerSize.large}
+						label="Loading Stock Info"
+						className="ms-font-m loadingSpinner"
+					/>
+				</div>
+			)
+		} else {
+			return (
+				<div>
+				</div>
+			)
+		}
 	}
-	renderPriceInfo(){
+	renderPriceInfo() {
 		return (
 			<div>Info Found</div>
 		)
@@ -25,7 +32,7 @@ class TimeSeries extends Component {
 		return (
 			<div>
 				{allPriceInfo === true ? this.renderPriceInfo() : this.renderLoading()}
-      		</div>
+			</div>
 		);
 	}
 }

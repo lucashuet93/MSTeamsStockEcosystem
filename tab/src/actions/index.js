@@ -7,6 +7,14 @@ export const loadUser = (user) => {
 	}
 }
 
+export const UPDATE_USER_CAPITAL = 'UPDATE_STATISTICS'
+export const updateCapital = (capital) => {
+	return {
+		type: UPDATE_USER_CAPITAL,
+		capital: capital
+	}
+}
+
 export const LOAD_PORTFOLIO = 'LOAD_PORTFOLIO'
 export const loadPortfolio = (portfolio) => {
 	return {

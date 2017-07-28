@@ -40,10 +40,10 @@ export const addStock = (stock) => {
 }
 
 export const DELETE_STOCK = 'DELETE_STOCK'
-export const deleteStock = (stock) => {
+export const deleteStock = (company) => {
 	return {
 		type: DELETE_STOCK,
-		stock: stock
+		companyToDelete: company
 	}
 }
 

@@ -113,7 +113,6 @@ class MyPortfolio extends Component {
 		}
 	}
 	render() {
-		console.log('rendering')
 		let stockItems = this.state.stockItems ? this.state.stockItems : []
 		return (
 			<div className="myPortfolio">

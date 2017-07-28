@@ -16,8 +16,14 @@ class Overview extends Component {
 	componentDidMount() {
 		if ((this.props.stocks.portfolio && this.state.portfolio == null)
 			|| this.props.stocks.portfolio.length !== this.state.portfolio.length) {
-			//need to add extra cases here
 			this.setPortfolioValues(this.props.stocks);
+		}
+	}
+	componentWillReceiveProps(p){
+		console.log('over', p)
+		if(p.user.loggedInUser.CapitalRemaining !== this.state.statistics.CapitalRemaining){
+			console.log('overview should update')
+			//update
 		}
 	}
 	setPortfolioValues(stockProps) {

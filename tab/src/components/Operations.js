@@ -3,7 +3,27 @@ import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital, updateSha
 import { TextField, Button, Dropdown } from 'office-ui-fabric-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateCapital } from '../actions'
+import { updateCapital, deleteStock, addStock } from '../actions'
+
+const generateGUID = () => {
+	let d = new Date().getTime();
+	let guid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (char) => {
+		let r = (d + Math.random() * 16) % 16 | 0;
+		d = Math.floor(d / 16);
+		return (char == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+	});
+	return guid;
+}
+
+class LocalStock {
+	constructor(company, numShares, price, userId) {
+		this.Company = company;
+		this.Id = generateGUID();
+		this.NumShares = numShares;
+		this.SharePrice = price;
+		this.UserId = userId
+	}
+}
 
 class Operations extends Component {
 	constructor(p) {
@@ -59,6 +79,7 @@ class Operations extends Component {
 						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
 								this.props.updateCapital(capitalRemaining)
+								this.props.addStock(new LocalStock(this.props.company, parseInt(this.state.shares), this.props.currentPrice, this.props.user.loggedInUser.Id))
 								this.setState({
 									operationKey: "BUY",
 									shares: 0,
@@ -166,6 +187,7 @@ class Operations extends Component {
 		)
 	}
 	render() {
+		console.log(this.props)
 		return (
 			<div className="operationsContainer ms-font-m">
 				{this.state.justOrdered == null ? this.renderForm() : this.renderMessage()}
@@ -182,7 +204,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({
-		updateCapital: updateCapital
+		updateCapital: updateCapital,
+		addStock: addStock,
+		deleteStock: deleteStock
 	}, dispatch)
 }
 

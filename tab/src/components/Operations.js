@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital, updateShares } from '../helpers/apiHelper'
-import { TextField, Button, Dropdown } from 'office-ui-fabric-react'
+import { TextField, Button, Dropdown } from 'office-ui-fabric-react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { updateCapital } from '../actions'
 
 class Operations extends Component {
 	constructor(p) {
@@ -49,12 +52,13 @@ class Operations extends Component {
 			return;
 		}
 		if (this.state.operationKey == 'BUY') {
-			let capitalRemaining = this.props.user.CapitalRemaining - parseInt(this.state.orderTotal);
+			let capitalRemaining = this.props.user.loggedInUser.CapitalRemaining - parseInt(this.state.orderTotal);
 			if (capitalRemaining >= 0) {
-				buyNewShares(this.props.user.Id, this.props.company, parseInt(this.state.shares), this.props.currentPrice)
+				buyNewShares(this.props.user.loggedInUser.Id, this.props.company, parseInt(this.state.shares), this.props.currentPrice)
 					.then((r) => {
-						updateUserCapital(this.props.user.Id, capitalRemaining)
+						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
+								this.props.updateCapital(capitalRemaining)
 								this.setState({
 									operationKey: "BUY",
 									shares: 0,
@@ -72,17 +76,18 @@ class Operations extends Component {
 		} else {
 			let amount = parseInt(this.state.shares)
 			let totalPrice = this.props.currentPrice * amount;
-			let capitalRemaining = this.props.user.CapitalRemaining + parseInt(this.state.orderTotal);
-			let stockFound = this.props.currentPortfolio.find(p => p.Company.toLowerCase() === this.props.company.toLowerCase());
+			let capitalRemaining = this.props.user.loggedInUser.CapitalRemaining + parseInt(this.state.orderTotal);
+			let stockFound = this.props.stocks.portfolio.find(p => p.Company.toLowerCase() === this.props.company.toLowerCase());
 			if (!stockFound) {
 				console.log('error - no stock in company')
 			} else if (stockFound.NumShares < amount) {
 				console.log('error - insufficient shares')
 			} else if (stockFound.NumShares == amount) {
-				sellAllShares(this.props.user.Id, this.props.company)
+				sellAllShares(this.props.user.loggedInUser.Id, this.props.company)
 					.then((r) => {
-						updateUserCapital(this.props.user.Id, capitalRemaining)
+						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
+								this.props.updateCapital(capitalRemaining)
 								console.log('sold all shares')
 								this.setState({
 									operationKey: "BUY",
@@ -96,10 +101,11 @@ class Operations extends Component {
 			} else {
 				let prevNumShares = stockFound.NumShares;
 				let newNumShares = prevNumShares - amount;
-				updateShares(this.props.user.Id, this.props.company, newNumShares, stockFound.SharePrice)
+				updateShares(this.props.user.loggedInUser.Id, this.props.company, newNumShares, stockFound.SharePrice)
 					.then((r) => {
-						updateUserCapital(this.props.user.Id, capitalRemaining)
+						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
+								this.props.updateCapital(capitalRemaining)
 								console.log('sold some shares')
 								this.setState({
 									operationKey: "BUY",
@@ -168,4 +174,16 @@ class Operations extends Component {
 	}
 }
 
-export default Operations;
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+		stocks: state.stocks
+	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({
+		updateCapital: updateCapital
+	}, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Operations);

@@ -10,6 +10,7 @@ const UserReducer = (state = initialState, action) => {
 		case LOAD_USER:
 			return { ...state, loggedInUser: action.user }
 		case UPDATE_USER_CAPITAL:
+			console.log('here')
 			return { ...state, loggedInUser: {...state.loggedInUser, CapitalRemaining: action.capital} }
 		default:
 			return state;

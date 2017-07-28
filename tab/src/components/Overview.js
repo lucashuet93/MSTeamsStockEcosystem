@@ -12,6 +12,7 @@ class Overview extends Component {
 			statistics: null
 		}
 		this.setPortfolioValues = this.setPortfolioValues.bind(this)
+		this.updatePortfolioValues = this.updatePortfolioValues.bind(this)
 	}
 	componentDidMount() {
 		if ((this.props.stocks.portfolio && this.state.portfolio == null)
@@ -20,10 +21,58 @@ class Overview extends Component {
 		}
 	}
 	componentWillReceiveProps(p){
-		console.log('over', p)
 		if(p.user.loggedInUser.CapitalRemaining !== this.state.statistics.CapitalRemaining){
-			console.log('overview should update')
-			//update
+			this.updatePortfolioValues(p.stocks, p.user.loggedInUser)
+		}
+	}
+	updatePortfolioValues(stockProps, user){
+		let statistics = {
+			companies: 0,
+			holdings: 0,
+			available: user.CapitalRemaining,
+			total: user.CapitalRemaining,
+			growth: (((user.CapitalRemaining - 50000) - 1 ) / 100)
+		}
+		if (stockProps.portfolio.length == 0) {
+			this.setState({
+				statistics: statistics,
+				portfolio: stockProps.portfolio
+			})
+		} else {
+			let newHoldings = 0;
+			let numStocks = stockProps.portfolio.length;
+			let portPromise = new Promise((resolve, reject) => {
+				let count = 0;
+				stockProps.portfolio.map(p => {
+					getMinuteTimeSeries(p.Company)
+						.then((r) => {
+							let priceHistory = r.data['Time Series (1min)']
+							if (priceHistory) {
+								let priceObject = priceHistory[Object.keys(priceHistory)[0]];
+								let mostRecentPrice = priceObject['4. close'];
+								let stockTotal = mostRecentPrice * p.NumShares;
+								newHoldings += stockTotal;
+							}
+							count++;
+							if (count == numStocks) {
+								resolve(newHoldings)
+							}
+						})
+				})
+
+			}).then((newHoldings) => {
+				let statistics = {
+					companies: numStocks,
+					holdings: newHoldings.toFixed(2),
+					available: user.CapitalRemaining.toFixed(2),
+					total: (user.CapitalRemaining + newHoldings).toFixed(2),
+					growth: ((((user.CapitalRemaining + newHoldings) / 50000) - 1) * 100).toFixed(2)
+				}
+				this.setState({
+					statistics: statistics,
+					portfolio: stockProps.portfolio
+				})
+			})
 		}
 	}
 	setPortfolioValues(stockProps) {

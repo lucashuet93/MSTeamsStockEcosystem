@@ -3,32 +3,42 @@ import Statistic from './Statistic';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { getMinuteTimeSeries } from '../helpers/stockHelper'
-import { updateStatistics } from '../actions';
 
 class Overview extends Component {
 	constructor(p) {
 		super(p);
+		this.state = {
+			portfolio: null,
+			statistics: null
+		}
 		this.setPortfolioValues = this.setPortfolioValues.bind(this)
 	}
-	componentWillUpdate(){
-		//need to call setPortfolio values here
+	componentWillMount() {
+		if ((this.props.stocks.portfolio && this.state.portfolio == null)
+			|| this.props.stocks.portfolio.length !== this.state.portfolio.length) {
+			//need to add extra cases here
+			this.setPortfolioValues(this.props.stocks);
+		}
 	}
-	setPortfolioValues(props) {
-		let portfolio = {
+	setPortfolioValues(stockProps) {
+		let statistics = {
 			companies: 0,
 			holdings: 0,
 			available: this.props.user.loggedInUser.CapitalRemaining,
 			total: this.props.user.loggedInUser.CapitalRemaining,
 			growth: 0
 		}
-		if (props.portfolio.length == 0) {
-			this.props.updateStatistics(portfolio)
+		if (stockProps.portfolio.length == 0) {
+			this.setState({
+				statistics: statistics,
+				portfolio: stockProps.portfolio
+			})
 		} else {
 			let newHoldings = 0;
-			let numStocks = props.portfolio.length;
+			let numStocks = stockProps.portfolio.length;
 			let portPromise = new Promise((resolve, reject) => {
 				let count = 0;
-				props.portfolio.map(p => {
+				stockProps.portfolio.map(p => {
 					getMinuteTimeSeries(p.Company)
 						.then((r) => {
 							let priceHistory = r.data['Time Series (1min)']
@@ -46,24 +56,26 @@ class Overview extends Component {
 				})
 
 			}).then((newHoldings) => {
-				let portfolioToReturn = {
+				let statistics = {
 					companies: numStocks,
 					holdings: newHoldings.toFixed(2),
-					available: props.user.CapitalRemaining.toFixed(2),
-					total: (props.user.CapitalRemaining + newHoldings).toFixed(2),
-					growth: ((((props.user.CapitalRemaining + newHoldings) / 50000) - 1) * 100).toFixed(2)
+					available: this.props.user.loggedInUser.CapitalRemaining.toFixed(2),
+					total: (this.props.user.loggedInUser.CapitalRemaining + newHoldings).toFixed(2),
+					growth: ((((this.props.user.loggedInUser.CapitalRemaining + newHoldings) / 50000) - 1) * 100).toFixed(2)
 				}
-				this.props.updateStatistics(portfolioToReturn)
+				this.setState({
+					statistics: statistics,
+					portfolio: stockProps.portfolio
+				})
 			})
 		}
 	}
 	render() {
-		console.log('P', this.props)
-		let statsToReturn;
+		let statisticsToReturn = this.state.statistics;
 		let dollar = "$"
 		let percent = "%"
-		if (!this.props.portfolio || this.props.portfolio.statistics == null) {
-			statsToReturn = {
+		if (this.state.statistics == null) {
+			statisticsToReturn = {
 				companies: "Calculating",
 				holdings: "Calculating...",
 				available: "Calculating...",
@@ -72,30 +84,23 @@ class Overview extends Component {
 			}
 			dollar = "";
 			percent = "";
-		} else {
-			statsToReturn = this.props.portfolio.statistics;
 		}
 		return (
 			<div>
-				<Statistic header={"Companies"} value={statsToReturn.companies} symbol={""} />
-				<Statistic header={"Portfolio Value"} value={statsToReturn.holdings} symbol={dollar} />
-				<Statistic header={"Available"} value={statsToReturn.available} symbol={dollar} />
-				<Statistic header={"Growth"} value={statsToReturn.growth} symbol={percent} />
-				<Statistic header={"Total Value"} value={statsToReturn.total} symbol={dollar} />
+				<Statistic header={"Companies"} value={statisticsToReturn.companies} symbol={""} />
+				<Statistic header={"Portfolio Value"} value={statisticsToReturn.holdings} symbol={dollar} />
+				<Statistic header={"Available"} value={statisticsToReturn.available} symbol={dollar} />
+				<Statistic header={"Growth"} value={statisticsToReturn.growth} symbol={percent} />
+				<Statistic header={"Total Value"} value={statisticsToReturn.total} symbol={dollar} />
 			</div>
 		);
 	}
-}
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({
-		updateStatistics: updateStatistics
-	}, dispatch)
 }
 
 const mapStateToProps = (state) => {
 	return {
 		user: state.user,
-		portfolio: state.portfolio
+		stocks: state.stocks
 	}
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Overview);
+export default connect(mapStateToProps, null)(Overview);

@@ -13,7 +13,7 @@ class Overview extends Component {
 		}
 		this.setPortfolioValues = this.setPortfolioValues.bind(this)
 	}
-	componentWillMount() {
+	componentDidMount() {
 		if ((this.props.stocks.portfolio && this.state.portfolio == null)
 			|| this.props.stocks.portfolio.length !== this.state.portfolio.length) {
 			//need to add extra cases here

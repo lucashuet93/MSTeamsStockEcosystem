@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { DetailsList, CommandButton, Link, CheckboxVisibility, IColumn, SearchBox } from 'office-ui-fabric-react';
 import { getMinuteTimeSeries } from '../helpers/stockHelper'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 let columns = [
 	{
@@ -53,20 +55,21 @@ class MyPortfolio extends Component {
 		}
 		this.createStockItems = this.createStockItems.bind(this)
 	}
-	componentWillReceiveProps(props) {
-		if (props.portfolio && this.state.stockItems === null) {
-			this.createStockItems(props);
+	componentDidMount() {
+		if ((this.props.stocks.portfolio && this.state.stockItems === null)
+			|| this.props.stocks.portfolio.length !== this.state.stockItems.length) {
+			this.createStockItems(this.props.stocks);
 		}
 	}
-	createStockItems(props) {
-		if (props.portfolio.length == 0) {
+	createStockItems(stockProps) {
+		if (stockProps.portfolio.length == 0) {
 			return [];
 		} else {
 			let stockItemsToReturn = []
-			let numStocks = props.portfolio.length;
+			let numStocks = stockProps.portfolio.length;
 			let portPromise = new Promise((resolve, reject) => {
 				let count = 0;
-				props.portfolio.map(p => {
+				stockProps.portfolio.map(p => {
 					getMinuteTimeSeries(p.Company)
 						.then((r) => {
 							let priceHistory = r.data['Time Series (1min)']
@@ -110,6 +113,7 @@ class MyPortfolio extends Component {
 		}
 	}
 	render() {
+		console.log('rendering')
 		let stockItems = this.state.stockItems ? this.state.stockItems : []
 		return (
 			<div className="myPortfolio">
@@ -125,4 +129,10 @@ class MyPortfolio extends Component {
 		);
 	}
 }
-export default MyPortfolio;
+const mapStateToProps = (state) => {
+	return {
+		user: state.user,
+		stocks: state.stocks
+	}
+}
+export default connect(mapStateToProps, null)(MyPortfolio);

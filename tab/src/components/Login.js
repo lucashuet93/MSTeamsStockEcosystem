@@ -27,8 +27,8 @@ class Login extends Component {
 					getPortfolio(foundUser.Id)
 						.then((r) => {
 							let portfolio = r.data.data;
-							this.props.loadUser(foundUser)
 							this.props.loadPortfolio(portfolio)
+							this.props.loadUser(foundUser)
 						})
 				}
 			})

@@ -22,3 +22,27 @@ export const updateStatistics = (statistics) => {
 		statistics: statistics
 	}
 }
+
+export const ADD_STOCK = 'ADD_STOCK'
+export const addStock = (stock) => {
+	return {
+		type: ADD_STOCK,
+		stock: stock
+	}
+}
+
+export const DELETE_STOCK = 'DELETE_STOCK'
+export const deleteStock = (stock) => {
+	return {
+		type: DELETE_STOCK,
+		stock: stock
+	}
+}
+
+export const UPDATE_STOCK = 'UPDATE_STOCK'
+export const updateStock = (stock) => {
+	return {
+		type: UPDATE_STOCK,
+		stock: stock
+	}
+}

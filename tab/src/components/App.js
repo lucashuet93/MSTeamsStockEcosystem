@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../assets/App.css';
 import Content from './Content'
 import Overview from './Overview'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import Login from './Login';
 
 
@@ -31,10 +33,15 @@ class App extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.user == null ? this.renderLogin() : this.renderContent()}
+				{this.props.user.loggedInUser == null ? this.renderLogin() : this.renderContent()}
 			</div>
 		);
 	}
 }
 
-export default App;
+const mapStateToProps = (state) => {
+	return {
+		user: state.user
+	}
+}
+export default connect(mapStateToProps, null)(App);

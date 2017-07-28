@@ -11,6 +11,7 @@ const StocksReducer = (state = initialState, action) => {
         case LOAD_PORTFOLIO:
 			return { ...state, portfolio: action.portfolio }
         case UPDATE_STATISTICS:
+            console.log(action)
 			return { ...state, statistics: action.statistics }
         default:
             return state;

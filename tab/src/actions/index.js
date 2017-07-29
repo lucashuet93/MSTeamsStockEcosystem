@@ -55,3 +55,10 @@ export const updateStock = (company, numShares) => {
 		newShares: numShares,
 	}
 }
+
+export const LOADED = 'LOADED'
+export const initialLoad = () => {
+	return {
+		type: LOADED,
+	}
+}

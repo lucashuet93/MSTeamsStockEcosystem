@@ -1,5 +1,5 @@
 
-import { LOAD_PORTFOLIO, UPDATE_STATISTICS, DELETE_STOCK, ADD_STOCK, UPDATE_STOCK } from '../actions'
+import { LOAD_PORTFOLIO, UPDATE_STATISTICS, DELETE_STOCK, ADD_STOCK, UPDATE_STOCK, LOADED } from '../actions'
 
 const initialState = {
     portfolio: null,
@@ -8,11 +8,14 @@ const initialState = {
     prevUpdatedCompany: {
         company: null,
         newShares: null
-    }
+    },
+    initialLoad: false
 };
 
 const StocksReducer = (state = initialState, action) => {
     switch(action.type) {
+        case LOADED:
+			return { ...state, initialLoad: true }
         case LOAD_PORTFOLIO:
 			return { ...state, portfolio: action.portfolio }
         case UPDATE_STATISTICS:

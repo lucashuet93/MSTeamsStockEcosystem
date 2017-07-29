@@ -1,6 +1,5 @@
 let restify = require('restify');
 let builder = require('botbuilder');
-let secrets = require('./secrets');
 let stockHelper = require('./stockHelper');
 let apiHelper = require('./apiHelper');
 
@@ -15,10 +14,10 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
-const APP_ID = process.env.APP_ID || null;
-const APP_PASSWORD = process.env.APP_PASSWORD || null;
-const LUISKey = process.env.LUIS_KEY || secrets.LUISKey
-const LUISEndpoint = process.env.LUIS_ENDPOINT || secrets.LUISEndpoint;
+const APP_ID = process.env.APP_ID;
+const APP_PASSWORD = process.env.APP_PASSWORD;
+const LUISKey = process.env.LUIS_KEY;
+const LUISEndpoint = process.env.LUIS_ENDPOINT;
 
 let connector = new builder.ChatConnector({
     appId: APP_ID,
@@ -26,7 +25,6 @@ let connector = new builder.ChatConnector({
 });
 let bot = new builder.UniversalBot(connector);
 server.post('/api/messages', connector.listen());
-
 
 let recognizer = new builder.LuisRecognizer(LUISEndpoint);
 bot.recognizer(recognizer);

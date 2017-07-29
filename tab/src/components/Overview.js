@@ -25,6 +25,17 @@ class Overview extends Component {
 			this.updatePortfolioValues(p.stocks, p.user.loggedInUser)
 		}
 	}
+	calculateNumberOfCompanies(portfolio){
+		let companies = [];
+		portfolio.map((p) => {
+			let com = p.Company.toLowerCase();
+			let found = companies.find(c => c == com)
+			if(!found){
+				companies.push(com)
+			}
+		})
+		return companies.length;
+	}
 	updatePortfolioValues(stockProps, user){
 		let statistics = {
 			companies: 0,
@@ -62,7 +73,7 @@ class Overview extends Component {
 
 			}).then((newHoldings) => {
 				let statistics = {
-					companies: numStocks,
+					companies: this.calculateNumberOfCompanies(stockProps.portfolio),
 					holdings: newHoldings.toFixed(2),
 					available: user.CapitalRemaining.toFixed(2),
 					total: (user.CapitalRemaining + newHoldings).toFixed(2),
@@ -112,7 +123,7 @@ class Overview extends Component {
 
 			}).then((newHoldings) => {
 				let statistics = {
-					companies: numStocks,
+					companies: this.calculateNumberOfCompanies(stockProps.portfolio),
 					holdings: newHoldings.toFixed(2),
 					available: this.props.user.loggedInUser.CapitalRemaining.toFixed(2),
 					total: (this.props.user.loggedInUser.CapitalRemaining + newHoldings).toFixed(2),

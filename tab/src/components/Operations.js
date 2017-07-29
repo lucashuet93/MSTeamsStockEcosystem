@@ -109,6 +109,7 @@ class Operations extends Component {
 						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
 								this.props.updateCapital(capitalRemaining)
+								this.props.deleteStock(this.props.company)
 								console.log('sold all shares')
 								this.setState({
 									operationKey: "BUY",
@@ -187,7 +188,6 @@ class Operations extends Component {
 		)
 	}
 	render() {
-		console.log(this.props)
 		return (
 			<div className="operationsContainer ms-font-m">
 				{this.state.justOrdered == null ? this.renderForm() : this.renderMessage()}

@@ -51,14 +51,36 @@ class MyPortfolio extends Component {
 	constructor(p) {
 		super(p);
 		this.state = {
-			stockItems: null
+			stockItems: null,
+			capitalRemaining: null,
+			loaded: false
 		}
 		this.createStockItems = this.createStockItems.bind(this)
+		this.updateStockItems = this.updateStockItems.bind(this)
 	}
 	componentDidMount() {
 		if ((this.props.stocks.portfolio && this.state.stockItems === null)
 			|| this.props.stocks.portfolio.length !== this.state.stockItems.length) {
 			this.createStockItems(this.props.stocks);
+		}
+	}
+	componentWillReceiveProps(p) {
+		if (!p.user.loggedInUser) {
+			return;
+		} else if (p.user.loggedInUser.CapitalRemaining !== this.state.capitalRemaining) {
+			this.updateStockItems(p.stocks, p.user.loggedInUser)
+		}
+	}
+	updateStockItems(stockProps, user) {
+		if (stockProps.portfolio.length > this.state.stockItems.length) {
+			console.log("stock added")
+			//stock has been added;
+		} else if (stockProps.portfolio.length < this.state.stockItems.length) {
+			console.log("stock sold")
+			//stock has been sold
+		} else {
+			console.log("stock updated")
+			//stock quantity has been updated
 		}
 	}
 	createStockItems(stockProps) {

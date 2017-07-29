@@ -89,7 +89,10 @@ class MyPortfolio extends Component {
 			})
 		} else if (stockProps.portfolio.length < this.state.stockItems.length) {
 			console.log("stock sold")
-			//stock has been sold
+			let stockItemsToReturn = this.state.stockItems.filter(stockObj => stockObj.Company.toLowerCase() !== stockProps.prevDeletedCompany.toLowerCase());
+			this.setState({
+				stockItems: stockItemsToReturn
+			})
 		} else {
 			console.log("stock updated")
 			//stock quantity has been updated

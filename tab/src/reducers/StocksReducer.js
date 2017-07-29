@@ -3,7 +3,8 @@ import { LOAD_PORTFOLIO, UPDATE_STATISTICS, DELETE_STOCK, ADD_STOCK, UPDATE_STOC
 
 const initialState = {
     portfolio: null,
-    statistics: null
+    statistics: null,
+    prevDeletedCompany: null
 };
 
 const StocksReducer = (state = initialState, action) => {
@@ -13,7 +14,7 @@ const StocksReducer = (state = initialState, action) => {
         case UPDATE_STATISTICS:
 			return { ...state, statistics: action.statistics }
         case DELETE_STOCK:
-            return {...state, portfolio: state.portfolio.filter(p => p.Company.toLowerCase() !== action.companyToDelete.toLowerCase())}
+            return {...state, prevDeletedCompany: action.companyToDelete , portfolio: state.portfolio.filter(p => p.Company.toLowerCase() !== action.companyToDelete.toLowerCase())}
         case ADD_STOCK:
 			return { ...state, portfolio: [...state.portfolio, action.stock] }
         case UPDATE_STOCK:

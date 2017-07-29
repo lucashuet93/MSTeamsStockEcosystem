@@ -4,7 +4,11 @@ import { LOAD_PORTFOLIO, UPDATE_STATISTICS, DELETE_STOCK, ADD_STOCK, UPDATE_STOC
 const initialState = {
     portfolio: null,
     statistics: null,
-    prevDeletedCompany: null
+    prevDeletedCompany: null,
+    prevUpdatedCompany: {
+        company: null,
+        newShares: null
+    }
 };
 
 const StocksReducer = (state = initialState, action) => {
@@ -18,8 +22,15 @@ const StocksReducer = (state = initialState, action) => {
         case ADD_STOCK:
 			return { ...state, portfolio: [...state.portfolio, action.stock] }
         case UPDATE_STOCK:
-			// return { ...state, statistics: action.statistics }
-            return state
+            let updated = state.portfolio.find(p => p.Company.toLowerCase() == action.companyToUpdate.toLowerCase())
+            let newPortfolio = state.portfolio.filter(p => p.Company.toLowerCase() !== action.companyToUpdate.toLowerCase())
+            updated.NumShares = action.newShares;
+            newPortfolio.push(updated)
+            let companyObj = {
+                company: action.companyToUpdate,
+                newShares: action.newShares
+            }
+			return { ...state, portfolio: newPortfolio, prevUpdatedCompany: companyObj }
         default:
             return state;
     }

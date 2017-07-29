@@ -48,9 +48,10 @@ export const deleteStock = (company) => {
 }
 
 export const UPDATE_STOCK = 'UPDATE_STOCK'
-export const updateStock = (stock) => {
+export const updateStock = (company, numShares) => {
 	return {
 		type: UPDATE_STOCK,
-		stock: stock
+		companyToUpdate: company,
+		newShares: numShares,
 	}
 }

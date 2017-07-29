@@ -3,7 +3,7 @@ import { getPortfolio, buyNewShares, sellAllShares, updateUserCapital, updateSha
 import { TextField, Button, Dropdown } from 'office-ui-fabric-react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { updateCapital, deleteStock, addStock } from '../actions'
+import { updateCapital, deleteStock, addStock, updateStock } from '../actions'
 
 const generateGUID = () => {
 	let d = new Date().getTime();
@@ -110,7 +110,6 @@ class Operations extends Component {
 							.then((r) => {
 								this.props.updateCapital(capitalRemaining)
 								this.props.deleteStock(this.props.company)
-								console.log('sold all shares')
 								this.setState({
 									operationKey: "BUY",
 									shares: 0,
@@ -128,7 +127,7 @@ class Operations extends Component {
 						updateUserCapital(this.props.user.loggedInUser.Id, capitalRemaining)
 							.then((r) => {
 								this.props.updateCapital(capitalRemaining)
-								console.log('sold some shares')
+								this.props.updateStock(this.props.company, newNumShares)
 								this.setState({
 									operationKey: "BUY",
 									shares: 0,
@@ -206,7 +205,8 @@ const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators({
 		updateCapital: updateCapital,
 		addStock: addStock,
-		deleteStock: deleteStock
+		deleteStock: deleteStock,
+		updateStock: updateStock
 	}, dispatch)
 }
 

@@ -88,19 +88,28 @@ class MyPortfolio extends Component {
 				stockItems: stockItemsToReturn
 			})
 		} else if (stockProps.portfolio.length < this.state.stockItems.length) {
-			console.log("stock sold")
 			let stockItemsToReturn = this.state.stockItems.filter(stockObj => stockObj.Company.toLowerCase() !== stockProps.prevDeletedCompany.toLowerCase());
 			this.setState({
 				stockItems: stockItemsToReturn
 			})
 		} else {
-			console.log("stock updated")
-			//stock quantity has been updated
+			let updatedStock = stockProps.prevUpdatedCompany;
+			if (updatedStock.company){
+				let updatedItem = this.state.stockItems.find(stockObj => stockObj.Company.toLowerCase() == updatedStock.company.toLowerCase());
+				let stockItemsToReturn = this.state.stockItems.filter(stockObj => stockObj.Company.toLowerCase() !== updatedStock.company.toLowerCase());
+				updatedItem.NumShares = updatedStock.newShares;
+				stockItemsToReturn.push(updatedItem)
+				this.setState({
+					stockItems: stockItemsToReturn
+				})
+			}
 		}
 	}
 	createStockItems(stockProps) {
 		if (stockProps.portfolio.length == 0) {
-			return [];
+			this.setState({
+				stockItems: []
+			})
 		} else {
 			let stockItemsToReturn = []
 			let numStocks = stockProps.portfolio.length;

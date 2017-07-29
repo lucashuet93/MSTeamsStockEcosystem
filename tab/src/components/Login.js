@@ -113,22 +113,22 @@ class Login extends Component {
 							<span className="ms-font-xxl">Sign Up</span>
 						</div>
 						<TextField
-							onChanged={this.loginUsernameChanged.bind(this)}
+							onChanged={this.signupUsernameChanged.bind(this)}
 							label="Username"
 							className="ms-font-m"
 							value={this.state.signupUsername} />
 						<TextField
-							onChanged={this.loginPasswordChanged.bind(this)}
+							onChanged={this.signupPasswordChanged.bind(this)}
 							label="Password"
 							className="ms-font-m"
 							value={this.state.signupPassword} />
 						<TextField
-							onChanged={this.loginUsernameChanged.bind(this)}
+							onChanged={this.firstnameChanged.bind(this)}
 							label="First Name"
 							className="ms-font-m"
 							value={this.state.firstname} />
 						<TextField
-							onChanged={this.loginPasswordChanged.bind(this)}
+							onChanged={this.lastnameChanged.bind(this)}
 							label="Last Name"
 							className="ms-font-m"
 							value={this.state.lastname} />

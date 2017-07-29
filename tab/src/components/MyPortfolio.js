@@ -3,6 +3,7 @@ import { DetailsList, CommandButton, Link, CheckboxVisibility, IColumn, SearchBo
 import { getMinuteTimeSeries } from '../helpers/stockHelper'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { initialLoad } from '../actions'
 
 let columns = [
 	{
@@ -145,6 +146,7 @@ class MyPortfolio extends Component {
 				this.setState({
 					stockItems: stockItemsToReturn
 				})
+				this.props.initialLoad();
 			})
 		}
 	}
@@ -181,6 +183,11 @@ class MyPortfolio extends Component {
 			</div>
 		);
 	}
+}
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({
+		initialLoad: initialLoad
+	}, dispatch)
 }
 const mapStateToProps = (state) => {
 	return {

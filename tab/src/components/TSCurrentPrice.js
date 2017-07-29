@@ -5,6 +5,12 @@ class TSCurrentPrice extends Component {
 		super(p)
 	}
 	render() {
+		let colorClass = 'ms-font-xxl ms-fontWeight-regular ';
+		if (this.props.growth > 0) {
+			colorClass += "posGrowth"
+		} else if (this.props.growth < 0) {
+			colorClass += "negGrowth"
+		}
 		return (
 			<div className="tSeriesDiv">
 				<div className="timeSeriesCurrentPrice cpLeft">
@@ -17,10 +23,10 @@ class TSCurrentPrice extends Component {
 				</div>
 				<div className="timeSeriesCurrentPrice">
 					<div className="tsCurrentPriceHeader">
-						<span className="ms-font-xl ">Growth</span>
+						<span className="ms-font-xl ">Growth %</span>
 					</div>
 					<div className="tsCurrentPriceStat">
-						<span className="ms-font-xxl ms-fontWeight-regular">{this.props.growth}</span>
+						<span className={colorClass}>{this.props.growth}</span>
 					</div>
 				</div>
 			</div>

@@ -50,6 +50,10 @@ class Overview extends Component {
 				portfolio: stockProps.portfolio
 			})
 		} else {
+			let quickStatsChange = {...this.state.statistics, companies: this.calculateNumberOfCompanies(stockProps.portfolio), available: user.CapitalRemaining.toFixed(2)}
+			this.setState({
+				statistics: quickStatsChange
+			})
 			let newHoldings = 0;
 			let numStocks = stockProps.portfolio.length;
 			let portPromise = new Promise((resolve, reject) => {

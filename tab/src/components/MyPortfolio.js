@@ -39,7 +39,7 @@ let columns = [
 	},
 	{
 		key: 'growth',
-		name: 'Growth',
+		name: 'Growth %',
 		fieldName: 'Growth',
 		minWidth: 100,
 		maxWidth: 180,
@@ -154,6 +154,14 @@ class MyPortfolio extends Component {
 		switch (column.key) {
 			case 'company':
 				return <span className='ms-font-m-plus'>{fieldContent.toUpperCase()}</span>;
+			case 'growth':
+				let colorClass = 'ms-font-m-plus ';
+				if(fieldContent > 0){
+					colorClass += "posGrowth"
+				} else if (fieldContent < 0){
+					colorClass += "negGrowth"
+				}
+				return <span className={colorClass}>{fieldContent}</span>;
 			default:
 				return <span className='ms-font-m-plus'>{fieldContent}</span>;
 		}

@@ -108,37 +108,6 @@ class Login extends Component {
 							/>
 						</div>
 					</div>
-					<div className="signupForm">
-						<div className="formTitleDiv">
-							<span className="ms-font-xxl">Sign Up</span>
-						</div>
-						<TextField
-							onChanged={this.signupUsernameChanged.bind(this)}
-							label="Username"
-							className="ms-font-m"
-							value={this.state.signupUsername} />
-						<TextField
-							onChanged={this.signupPasswordChanged.bind(this)}
-							label="Password"
-							className="ms-font-m"
-							value={this.state.signupPassword} />
-						<TextField
-							onChanged={this.firstnameChanged.bind(this)}
-							label="First Name"
-							className="ms-font-m"
-							value={this.state.firstname} />
-						<TextField
-							onChanged={this.lastnameChanged.bind(this)}
-							label="Last Name"
-							className="ms-font-m"
-							value={this.state.lastname} />
-						<div className="formFooterDiv">
-							<Button
-								text="Sign Up"
-								onClick={() => this.signUp()}
-							/>
-						</div>
-					</div>
 				</div>
 			</div>
 		);
@@ -152,3 +121,37 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default connect(null, mapDispatchToProps)(Login);
+
+
+
+/*<div className="signupForm">
+	<div className="formTitleDiv">
+		<span className="ms-font-xxl">Sign Up</span>
+	</div>
+	<TextField
+		onChanged={this.signupUsernameChanged.bind(this)}
+		label="Username"
+		className="ms-font-m"
+		value={this.state.signupUsername} />
+	<TextField
+		onChanged={this.signupPasswordChanged.bind(this)}
+		label="Password"
+		className="ms-font-m"
+		value={this.state.signupPassword} />
+	<TextField
+		onChanged={this.firstnameChanged.bind(this)}
+		label="First Name"
+		className="ms-font-m"
+		value={this.state.firstname} />
+	<TextField
+		onChanged={this.lastnameChanged.bind(this)}
+		label="Last Name"
+		className="ms-font-m"
+		value={this.state.lastname} />
+	<div className="formFooterDiv">
+		<Button
+			text="Sign Up"
+			onClick={() => this.signUp()}
+		/>
+	</div>
+</div>*/

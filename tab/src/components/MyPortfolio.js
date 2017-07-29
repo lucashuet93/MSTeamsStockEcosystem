@@ -195,4 +195,4 @@ const mapStateToProps = (state) => {
 		stocks: state.stocks
 	}
 }
-export default connect(mapStateToProps, null)(MyPortfolio);
+export default connect(mapStateToProps, mapDispatchToProps)(MyPortfolio);

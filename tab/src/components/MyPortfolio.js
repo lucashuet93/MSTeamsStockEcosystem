@@ -73,8 +73,20 @@ class MyPortfolio extends Component {
 	}
 	updateStockItems(stockProps, user) {
 		if (stockProps.portfolio.length > this.state.stockItems.length) {
-			console.log("stock added")
-			//stock has been added;
+			let addedStock = stockProps.portfolio[stockProps.portfolio.length - 1];
+			let shares = parseInt(addedStock.NumShares)
+			let price = parseInt(addedStock.SharePrice)
+			let stockObj = {
+				Company: addedStock.Company,
+				NumShares: shares,
+				SharePrice: price.toFixed(2),
+				CurrentPrice: price.toFixed(2),
+				Growth: ((((price.toFixed(2) * shares) / (shares * price)) - 1) * 100).toFixed(2)
+			}
+			let stockItemsToReturn = [...this.state.stockItems, stockObj];
+			this.setState({
+				stockItems: stockItemsToReturn
+			})
 		} else if (stockProps.portfolio.length < this.state.stockItems.length) {
 			console.log("stock sold")
 			//stock has been sold

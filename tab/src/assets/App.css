@@ -60,6 +60,15 @@
   width: 25.9em;
   height: 21em;
 }
+.failedForm{
+  padding: 2em;
+  padding-top: 10em;
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+  width: 25.9em;
+  height: 16em;
+}
 .formTitleDiv{
   text-align: center;
   margin-bottom: 1em;

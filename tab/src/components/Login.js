@@ -14,7 +14,8 @@ class Login extends Component {
 			signupUsername: "",
 			signupPassword: "",
 			loginUsername: "",
-			loginPassword: ""
+			loginPassword: "",
+			failed: false
 		}
 		this.attemptLogin = this.attemptLogin.bind(this);
 		this.signUp = this.signUp.bind(this);
@@ -30,6 +31,19 @@ class Login extends Component {
 							this.props.loadPortfolio(portfolio)
 							this.props.loadUser(foundUser)
 						})
+				} else {
+					this.setState({
+						failed: true
+					})
+					let prom = new Promise((resolve, reject) => {
+						setTimeout(() => {
+							resolve()
+						}, 2000)
+					}).then((r) => {
+						this.setState({
+							failed: false
+						})
+					})
 				}
 			})
 	}
@@ -84,33 +98,47 @@ class Login extends Component {
 		})
 	}
 	render() {
-		return (
-			<div>
-				<div className="form">
-					<div className="loginForm">
-						<div className="formTitleDiv">
-							<span className="ms-font-xxl">Log In</span>
-						</div>
-						<TextField
-							onChanged={this.loginUsernameChanged.bind(this)}
-							label="Username"
-							className="ms-font-m"
-							value={this.state.loginUsername} />
-						<TextField
-							onChanged={this.loginPasswordChanged.bind(this)}
-							label="Password"
-							className="ms-font-m"
-							value={this.state.loginPassword} />
-						<div className="formFooterDiv">
-							<Button
-								text="Log In"
-								onClick={() => this.attemptLogin()}
-							/>
+		if (this.state.failed == true) {
+			return (
+				<div>
+					<div className="form">
+						<div className="failedForm">
+							<div className="formTitleDiv">
+								<span className="ms-font-xxl">Login Failed!</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		);
+			)
+		} else {
+			return (
+				<div>
+					<div className="form">
+						<div className="loginForm">
+							<div className="formTitleDiv">
+								<span className="ms-font-xxl">Log In</span>
+							</div>
+							<TextField
+								onChanged={this.loginUsernameChanged.bind(this)}
+								label="Username"
+								className="ms-font-m"
+								value={this.state.loginUsername} />
+							<TextField
+								onChanged={this.loginPasswordChanged.bind(this)}
+								label="Password"
+								className="ms-font-m"
+								value={this.state.loginPassword} />
+							<div className="formFooterDiv">
+								<Button
+									text="Log In"
+									onClick={() => this.attemptLogin()}
+								/>
+							</div>
+						</div>
+					</div>
+				</div>
+			);
+		}
 	}
 }
 const mapDispatchToProps = (dispatch) => {

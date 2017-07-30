@@ -11,14 +11,15 @@ class TSCurrentPrice extends Component {
 		} else if (this.props.growth < 0) {
 			colorClass += "negGrowth"
 		}
+		let price = "$ " + this.props.price
 		return (
 			<div className="tSeriesDiv">
 				<div className="timeSeriesCurrentPrice cpLeft">
 					<div className="tsCurrentPriceHeader">
-						<span className="ms-font-xl ">Price</span>
+						<span className="ms-font-xl ">Share Price</span>
 					</div>
 					<div className="tsCurrentPriceStat">
-						<span className="ms-font-xxl ms-fontWeight-regular">{this.props.price}</span>
+						<span className="ms-font-xxl ms-fontWeight-regular">{price}</span>
 					</div>
 				</div>
 				<div className="timeSeriesCurrentPrice">

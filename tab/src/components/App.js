@@ -6,10 +6,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Login from './Login';
 
-
 class App extends Component {
 	constructor(p) {
 		super(p)
+	}
+	componentDidMount() {
+		const microsoftTeams = window.microsoftTeams;
+		microsoftTeams.getContext((context) => {
+			console.log('Context', context)
+		})
 	}
 	renderContent() {
 		return (

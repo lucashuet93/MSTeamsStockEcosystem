@@ -157,7 +157,6 @@ class Overview extends Component {
 		}
 		return (
 			<div>
-				<Statistic header={"Companies"} value={statisticsToReturn.companies} symbol={""} />
 				<Statistic header={"Portfolio Value"} value={statisticsToReturn.holdings} symbol={dollar} />
 				<Statistic header={"Available"} value={statisticsToReturn.available} symbol={dollar} />
 				<Statistic header={"Growth"} value={statisticsToReturn.growth} symbol={percent} />

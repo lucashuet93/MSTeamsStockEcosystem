@@ -1,0 +1,77 @@
+{
+    "$schema": "https://statics.teams.microsoft.com/sdk/v1.0/manifest/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.0",
+    "version": "1.0.0",
+    "id": "a884f181-8026-48f5-8d6d-95b4a5bb4835",
+    "packageName": "com.lucashuet.stockecosystemapp",
+    "developer": {
+        "name": "Microsoft",
+        "websiteUrl": "https://www.microsoft.com",
+        "privacyUrl": "https://www.microsoft.com/privacy",
+        "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
+    },
+    "name": {
+        "short": "Stock Ecosystem",
+        "full": "Stock Ecosystem"
+    },
+    "description": {
+        "short": "Stock Ecosystem built to utilize Microsoft Teams technologies",
+        "full": "Sample Stock Ecosystem App that utilizes bots, tabs, and compose extensions for Microsoft Teams"
+    },
+    "icons": {
+        "outline": "https://i.imgur.com/lbZCk8D.png",
+        "color": "https://i.imgur.com/zP5UWD6.png"
+    },
+    "accentColor": "#60A18E",
+    "staticTabs": [
+        {
+            "entityId": "myportfolio",
+            "name": "My Portfolio",
+            "contentUrl": "https://bd6e103c.ngrok.io",
+            "websiteUrl": "https://bd6e103c.ngrok.io",
+            "scopes": [
+                "personal", "team"
+            ]
+        }
+    ],
+    "bots": [
+        {
+            "botId": "bd5cba79-e44b-4f97-b480-ce6803d74caf",
+            "isNotificationOnly": false,
+            "scopes": [
+                "team",
+                "personal"
+            ],
+            "commandLists": [
+                {
+                    "scopes": [
+                        "team",
+                        "personal"
+                    ],
+                    "commands": [
+                        {
+                            "title": "What is the current price of X?",
+                            "description": "X must be a valid stock symbol"
+                        },
+                        {
+                            "title": "Buy X shares of Y",
+                            "description": "Y must be a valid stock symbol"
+                        },
+                        {
+                            "title": "Sell X shares of Y",
+                            "description": "Y must be a valid stock symbol"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+    "validDomains": [
+        "teamsnodesample.azurewebsites.net",
+        "*.teamsnodesample.azurewebsites.net"
+    ]
+}

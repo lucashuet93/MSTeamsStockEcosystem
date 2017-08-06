@@ -10,16 +10,10 @@
   display: block;
   width: 100%;
 }
-.holdings{
-  display: inline-block;
-  vertical-align: top;
-  width: 65%;
-}
 .statistic{
   display: inline-block;
-  width: 19.85%;
+  width: 24.5%;
   text-align: center;
-  border-right: 1px solid white;
   border-left: 1px solid white;
 }
 .statHeader{
@@ -121,6 +115,9 @@
   padding-top: 1em;
   width: 50%;
   height: 14em;
+}
+.portfolioTable {
+  margin: auto;
 }
 .tsCurrentPriceStat{
   margin-top: 3em;

@@ -12,9 +12,6 @@ class Content extends Component {
 				<div className="holdings">
 					<MyPortfolio />
 				</div>
-				<div className="marketplace">
-					<Marketplace />
-				</div>
 			</div>
 		);
 	}

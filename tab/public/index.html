@@ -5,12 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/4.1.0/css/fabric.min.css">
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js" type="text/javascript"></script>
     <title>Microsoft Teams Stock EcoSystem Prototype</title>
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <script src="https://statics.teams.microsoft.com/sdk/v0.4/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript">
+        microsoftTeams.initialize();
+        microsoftTeams.settings.registerOnSaveHandler(function(saveEvent){
+            microsoftTeams.settings.setSettings({
+                entityId: "myportfolio",
+                contentUrl: "https://bd6e103c.ngrok.io",
+                suggestedDisplayName: "My Portfolio",
+                websiteUrl: "https://bd6e103c.ngrok.io"
+            });
+            saveEvent.notifySuccess();
+        });
+        microsoftTeams.settings.setValidityState(true);
+    </script>
     <div id="root"></div>
   </body>
+
+<script type='text/javascript'>
+const getDateTimeCreated = () => {
+    alert('Office')
+    alert(Office.context)
+}
+Office.initialize = function (reason) {
+    $(document).ready(function () {
+        getDateTimeCreated();
+    });
+}
+
+    
+</script>
 </html>

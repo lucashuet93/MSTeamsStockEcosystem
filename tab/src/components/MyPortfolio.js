@@ -171,9 +171,9 @@ class MyPortfolio extends Component {
 	render() {
 		let stockItems = this.state.stockItems ? this.state.stockItems : []
 		return (
-			<div className="myPortfolio">
+			<div>
 				<DetailsList
-					className="ms-font-m-plus"
+					className="ms-font-m-plus portfolioTable"
 					items={stockItems}
 					columns={columns}
 					checkboxVisibility={CheckboxVisibility.hidden}

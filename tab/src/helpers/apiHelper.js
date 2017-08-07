@@ -5,7 +5,7 @@ const config = {
 	headers: { "Content-Type": "application/json" }
 };
 
-export const loginUser = (username, password) => {
+export const loginUser = (username) => {
 	let route = rootAPIUrl.concat("loginUserFromTab")
 	let body = {
 		username: username

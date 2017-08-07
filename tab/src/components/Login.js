@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
+import { createUser } from '../helpers/apiHelper'
 import { TextField, Button } from 'office-ui-fabric-react'
-import { loadPortfolio, loadUser } from '../actions';
 
 class Login extends Component {
 	constructor(p) {
@@ -11,41 +10,10 @@ class Login extends Component {
 		this.state = {
 			firstname: "",
 			lastname: "",
-			signupUsername: "",
 			signupPassword: "",
-			loginUsername: "",
-			loginPassword: "",
 			failed: false
 		}
-		this.attemptLogin = this.attemptLogin.bind(this);
 		this.signUp = this.signUp.bind(this);
-	}
-	attemptLogin() {
-		loginUser(this.state.loginUsername, this.state.loginPassword)
-			.then((res) => {
-				if (res.data.data.length > 0) {
-					let foundUser = res.data.data[0];
-					getPortfolio(foundUser.Id)
-						.then((r) => {
-							let portfolio = r.data.data;
-							this.props.loadPortfolio(portfolio)
-							this.props.loadUser(foundUser)
-						})
-				} else {
-					this.setState({
-						failed: true
-					})
-					let prom = new Promise((resolve, reject) => {
-						setTimeout(() => {
-							resolve()
-						}, 2000)
-					}).then((r) => {
-						this.setState({
-							failed: false
-						})
-					})
-				}
-			})
 	}
 	signUp() {
 		let username = this.state.signupUsername;
@@ -63,19 +31,9 @@ class Login extends Component {
 					Lastname: lastname,
 					CapitalRemaining: 50000
 				}
-				this.props.loadUser(newUser);
-				this.props.loadPortfolio([])
+				// this.props.loadUser(newUser);
+				// this.props.loadPortfolio([])
 			})
-	}
-	loginUsernameChanged(text) {
-		this.setState({
-			loginUsername: text
-		})
-	}
-	loginPasswordChanged(text) {
-		this.setState({
-			loginPassword: text
-		})
 	}
 	signupUsernameChanged(text) {
 		this.setState({
@@ -118,22 +76,6 @@ class Login extends Component {
 							<div className="formTitleDiv">
 								<span className="ms-font-xxl">Log In</span>
 							</div>
-							<TextField
-								onChanged={this.loginUsernameChanged.bind(this)}
-								label="Username"
-								className="ms-font-m"
-								value={this.state.loginUsername} />
-							<TextField
-								onChanged={this.loginPasswordChanged.bind(this)}
-								label="Password"
-								className="ms-font-m"
-								value={this.state.loginPassword} />
-							<div className="formFooterDiv">
-								<Button
-									text="Log In"
-									onClick={() => this.attemptLogin()}
-								/>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -141,14 +83,14 @@ class Login extends Component {
 		}
 	}
 }
-const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators({
-		loadPortfolio: loadPortfolio,
-		loadUser: loadUser
-	}, dispatch)
-}
+// const mapDispatchToProps = (dispatch) => {
+// 	return bindActionCreators({
+// 		loadPortfolio: loadPortfolio,
+// 		loadUser: loadUser
+// 	}, dispatch)
+// }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, null)(Login);
 
 
 

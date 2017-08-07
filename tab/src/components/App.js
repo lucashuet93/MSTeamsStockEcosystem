@@ -67,8 +67,8 @@ class App extends Component {
 			<div>
 				<Spinner
 					size={SpinnerSize.large}
-					label="Loading..."
-					className="ms-font-m loadingSpinner"
+					label="Loading User Info..."
+					className="ms-font-m initialLoadingSpinner"
 				/>
 			</div>
 		)

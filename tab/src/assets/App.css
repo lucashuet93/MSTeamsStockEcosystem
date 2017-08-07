@@ -106,6 +106,9 @@
 .loadingSpinner{
   margin-top: 8em;
 }
+.initialLoadingSpinner{
+  margin-top: 15em;
+}
 .timeSeriesContent{
   text-align: center;
 }

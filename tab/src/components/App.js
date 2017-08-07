@@ -11,13 +11,15 @@ import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
 class App extends Component {
 	constructor(p) {
 		super(p)
+		this.state = {
+			loginFailed: null
+		}
 		this.attemptLogin = this.attemptLogin.bind(this)
 	}
 	componentDidMount() {
 		const microsoftTeams = window.microsoftTeams;
 		microsoftTeams.getContext((context) => {
 			this.props.loadContext(context)
-			console.log('here')
 			this.attemptLogin(context.upn)
 		})
 	}
@@ -33,6 +35,9 @@ class App extends Component {
 							this.props.loadUser(foundUser)
 						})
 				} else {
+					this.setState({
+						loginFailed: true
+					})
 					let prom = new Promise((resolve, reject) => {
 						setTimeout(() => {
 							resolve()

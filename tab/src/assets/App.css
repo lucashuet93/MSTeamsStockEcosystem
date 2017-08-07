@@ -30,38 +30,18 @@
 }
 .form{
   height: 30em;
-  width: 30em;
+  width: 29em;
   border: 1px solid lightgray;
-  border-radius: 25%;
   margin:auto;
+  position: relative;
+  background-color: white;
   margin-top: 8em;
 }
 .signupForm{
   padding: 2em;
-  display: inline-block;
   position: relative;
-  vertical-align: top;
   width: 25.9em;
-  border-left: 1px solid lightgray;
-  height: 31em;
-}
-.loginForm{
-  padding: 2em;
-  padding-top: 5em;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-  width: 25.9em;
-  height: 21em;
-}
-.failedForm{
-  padding: 2em;
-  padding-top: 10em;
-  display: inline-block;
-  position: relative;
-  vertical-align: top;
-  width: 25.9em;
-  height: 16em;
+  height: 25em;
 }
 .formTitleDiv{
   text-align: center;
@@ -73,6 +53,10 @@
   position: absolute;
   width: 25.9em;
   bottom: 0;
+}
+.signupButton{
+  background-color: #353535 !important;
+  color: white !important;
 }
 .myPortfolio{
   padding: 1em;

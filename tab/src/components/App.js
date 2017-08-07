@@ -7,12 +7,14 @@ import { bindActionCreators } from 'redux';
 import { loadContext, loadUser, loadPortfolio } from '../actions';
 import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
 import { Spinner, SpinnerSize } from 'office-ui-fabric-react'
+import CreateUser from './CreateUser'
 
 class App extends Component {
 	constructor(p) {
 		super(p)
 		this.state = {
-			loginFailed: null
+			loginFailed: null,
+			upn: null
 		}
 		this.attemptLogin = this.attemptLogin.bind(this)
 	}
@@ -33,19 +35,14 @@ class App extends Component {
 							let portfolio = r.data.data;
 							this.props.loadPortfolio(portfolio)
 							this.props.loadUser(foundUser)
+							this.setState({
+								upn: username
+							})
 						})
 				} else {
 					this.setState({
-						loginFailed: true
-					})
-					let prom = new Promise((resolve, reject) => {
-						setTimeout(() => {
-							resolve()
-						}, 2000)
-					}).then((r) => {
-						this.setState({
-							failed: false
-						})
+						loginFailed: true,
+						upn: username
 					})
 				}
 			})
@@ -73,10 +70,24 @@ class App extends Component {
 			</div>
 		)
 	}
+	renderCreateUser() {
+		return (
+			<div>
+				<CreateUser upn={this.state.upn}/>
+			</div>
+		)
+	}
+	userNotFound() {
+		return (
+			<div>
+				{this.state.loginFailed == true ? this.renderCreateUser() : this.renderLoading()}
+			</div>
+		)
+	}
 	render() {
 		return (
 			<div>
-				{this.props.user.loggedInUser == null ? this.renderLoading() : this.renderContent()}
+				{this.props.user.loggedInUser == null ? this.userNotFound() : this.renderContent()}
 			</div>
 		);
 	}

@@ -4,9 +4,9 @@ import Content from './Content'
 import Overview from './Overview'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Login from './Login';
 import { loadContext, loadUser, loadPortfolio } from '../actions';
 import { loginUser, createUser, getPortfolio } from '../helpers/apiHelper'
+import { Spinner, SpinnerSize } from 'office-ui-fabric-react'
 
 class App extends Component {
 	constructor(p) {
@@ -62,17 +62,21 @@ class App extends Component {
 			</div>
 		)
 	}
-	renderLogin() {
+	renderLoading() {
 		return (
 			<div>
-				<Login />
+				<Spinner
+					size={SpinnerSize.large}
+					label="Loading..."
+					className="ms-font-m loadingSpinner"
+				/>
 			</div>
 		)
 	}
 	render() {
 		return (
 			<div>
-				{this.props.user.loggedInUser == null ? this.renderLogin() : this.renderContent()}
+				{this.props.user.loggedInUser == null ? this.renderLoading() : this.renderContent()}
 			</div>
 		);
 	}

@@ -59,7 +59,7 @@ let dbQueriesContainer = function () {
     self.createUser = (body, callback) => {
         let guid = self.generateGUID()
         self.sql.execute({
-            query: "INSERT INTO Users VALUES (@guid, @firstname, @lastname, @username, @password, 50000)",
+            query: "INSERT INTO Users VALUES (@guid,  @username, @password, @firstname, @lastname, 50000)",
             params: {
                 guid: {
                     type: self.sql.uniqueidentifier,

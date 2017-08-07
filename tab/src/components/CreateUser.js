@@ -33,8 +33,8 @@ class CreateUser extends Component {
 					Lastname: lastname,
 					CapitalRemaining: 50000
 				}
-				this.props.loadUser(newUser);
 				this.props.loadPortfolio([])
+				this.props.loadUser(newUser);
 			})
 	}
 	signupPasswordChanged(text) {

@@ -6,10 +6,9 @@ const config = {
 };
 
 export const loginUser = (username, password) => {
-	let route = rootAPIUrl.concat("loginUser")
+	let route = rootAPIUrl.concat("loginUserFromTab")
 	let body = {
-		username: username,
-		password: password
+		username: username
 	}
 	return axios.post(route, body, config)
 }

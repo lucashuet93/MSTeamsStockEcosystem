@@ -5,6 +5,7 @@ import Overview from './Overview'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Login from './Login';
+import { loadContext } from '../actions';
 
 class App extends Component {
 	constructor(p) {
@@ -13,7 +14,7 @@ class App extends Component {
 	componentDidMount() {
 		const microsoftTeams = window.microsoftTeams;
 		microsoftTeams.getContext((context) => {
-			console.log('Context', context)
+			this.props.loadContext(context)
 		})
 	}
 	renderContent() {
@@ -44,9 +45,14 @@ class App extends Component {
 	}
 }
 
+const mapDispatchToProps = (dispatch) => {
+	return bindActionCreators({
+		loadContext: loadContext
+	}, dispatch)
+}
 const mapStateToProps = (state) => {
 	return {
 		user: state.user
 	}
 }
-export default connect(mapStateToProps, null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

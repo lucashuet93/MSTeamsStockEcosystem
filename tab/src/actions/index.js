@@ -23,6 +23,14 @@ export const loadPortfolio = (portfolio) => {
 	}
 }
 
+export const LOAD_CONTEXT = 'LOAD_CONTEXT'
+export const loadContext = (context) => {
+	return {
+		type: LOAD_CONTEXT,
+		context: context
+	}
+}
+
 export const UPDATE_STATISTICS = 'UPDATE_STATISTICS'
 export const updateStatistics = (statistics) => {
 	return {

@@ -13,6 +13,16 @@ const initRestApi = (router) => {
                 });
             })
         });
+	
+    router.route('/loginUserFromTab')
+        .post((req, res) => {
+            dbQueries.loginUserFromTab(req.body.username, (response) => {
+                res.json({
+                    data: response
+                });
+            })
+        });
+
     router.route('/createUser')
         .post((req, res) => {
             dbQueries.createUser(req.body, (response) => {

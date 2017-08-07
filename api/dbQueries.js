@@ -41,6 +41,21 @@ let dbQueriesContainer = function () {
             console.log("Something bad happened:", err);
         });
     };
+    self.loginUserFromTab = (username, callback) => {
+        self.sql.execute({
+            query: "SELECT * from Users WHERE username = @username",
+            params: {
+                username: {
+                    type: self.sql.nvarchar,
+                    val: username,
+                },
+            }
+        }).then(function (res) {
+            callback(res);
+        }, function (err) {
+            console.log("Something bad happened:", err);
+        });
+    };
     self.createUser = (body, callback) => {
         let guid = self.generateGUID()
         self.sql.execute({

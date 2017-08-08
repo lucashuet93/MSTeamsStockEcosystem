@@ -19,16 +19,16 @@
         "full": "Sample Stock Ecosystem App that utilizes bots, tabs, and compose extensions for Microsoft Teams"
     },
     "icons": {
-        "outline": "https://i.imgur.com/lbZCk8D.png",
-        "color": "https://i.imgur.com/zP5UWD6.png"
+        "outline": "https://i.imgur.com/T78EABW.png",
+        "color": "https://i.imgur.com/T78EABW.png"
     },
     "accentColor": "#60A18E",
     "staticTabs": [
         {
             "entityId": "myportfolio",
             "name": "My Portfolio",
-            "contentUrl": "https://bd6e103c.ngrok.io",
-            "websiteUrl": "https://bd6e103c.ngrok.io",
+            "contentUrl": "https://msteamsstockecosystemsite.azurewebsites.net/",
+            "websiteUrl": "https://msteamsstockecosystemsite.azurewebsites.net/",
             "scopes": [
                 "personal", "team"
             ]

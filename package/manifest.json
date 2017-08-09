@@ -60,6 +60,10 @@
                         {
                             "title": "Sell X shares of Y",
                             "description": "Y must be a valid stock symbol"
+                        },
+                        {
+                            "title": "logout",
+                            "description": "Logs the user out."
                         }
                     ]
                 }

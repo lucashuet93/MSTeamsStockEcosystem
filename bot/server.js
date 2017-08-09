@@ -288,3 +288,12 @@ bot.dialog('/none', [
 ]).triggerAction({
     matches: 'None'
 });
+
+bot.dialog('/logout', [
+    (session, args, next) => {
+        session.userData = {};
+        session.send(`You've been successfully logged out.`)
+    }
+]).triggerAction({
+    matches: /^logout$/i
+});

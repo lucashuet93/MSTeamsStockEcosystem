@@ -125,7 +125,7 @@ bot.dialog('/getPrice', [
                             } else {
                                 let priceObject = priceHistory[Object.keys(priceHistory)[0]];
                                 let mostRecentPrice = priceObject['4. close']
-                                session.send(`${company}'s share price is currently at ${mostRecentPrice}!`);
+                                session.send(`${company}'s share price is currently at ${mostRecentPrice.toFixed(2)}!`);
                             }
                         })
                 }

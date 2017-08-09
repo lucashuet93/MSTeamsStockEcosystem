@@ -205,7 +205,7 @@ bot.dialog('/sell', [
             session.send("Hmm I don't have you logged in yet.")
             session.replaceDialog('/noUser')
         } else {
-            apiHelper.loginUser(session.dialogData.username, results.response)
+            apiHelper.loginUser(session.userData.user.Username, session.userData.user.Password)
                 .then((res) => {
                     if (res.data.data.length > 0) {
                         session.userData.user = res.data.data[0];

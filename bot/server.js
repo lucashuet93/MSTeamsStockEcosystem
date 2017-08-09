@@ -246,7 +246,7 @@ bot.dialog('/sell', [
                                                             .then((r) => {
                                                                 apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
                                                                     .then((r) => {
-                                                                        session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
+                                                                        session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice.toFixed(2)}!`);
                                                                     })
                                                             })
                                                     } else {
@@ -257,7 +257,7 @@ bot.dialog('/sell', [
                                                             .then((r) => {
                                                                 apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
                                                                     .then((r) => {
-                                                                        session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
+                                                                        session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice.toFixed(2)}!`);
                                                                     })
                                                             })
                                                     }

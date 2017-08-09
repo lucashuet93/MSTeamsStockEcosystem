@@ -143,50 +143,56 @@ bot.dialog('/buy', [
             session.send("Hmm I don't have you logged in yet.")
             session.replaceDialog('/noUser')
         } else {
-            let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
-            let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
-            if (companyEntityObject === null) {
-                session.beginDialog('/none')
-            } else {
-                if (amountEntityObject === null) {
-                    session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
-                }
-                let company = companyEntityObject.entity.toLowerCase();
-                let amount = amountEntityObject.entity
-                if (company === null || amount === null) {
-                    session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
-                } else {
-                    apiHelper.getPortfolio(session.userData.user.Id)
-                        .then((res) => {
-                            let currentPortfolio = res.data.data;
-                            let priceHistory = stockHelper.getStockPrice(company)
-                                .then((result) => {
-                                    let priceHistory = result.data['Time Series (1min)']
-                                    if (!priceHistory) {
-                                        session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand the company name/abbreviation. Please try again.`)
-                                    } else {
-                                        let priceObject = priceHistory[Object.keys(priceHistory)[0]];
-                                        let mostRecentPrice = priceObject['4. close']
-                                        let totalPrice = mostRecentPrice * amount;
-                                        let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
-                                        if (capitalRemaining > 0) {
-                                            apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
-                                                .then((r) => {
-                                                    apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
-                                                        .then((r) => {
-                                                            setLocalUserCapital(session, capitalRemaining)
-                                                            session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
-                                                        })
-                                                })
-                                        } else {
-                                            session.send(`I'm sorry it looks like you have insufficient funds. You have $${session.userData.user.CapitalRemaining} remaining in your account but the order price is $${totalPrice.toFixed(2)}.`)
-                                        }
-                                    }
-                                })
-                        })
-                }
-            }
-
+            apiHelper.loginUser(session.userData.user.Username, session.userData.user.Password)
+                .then((res) => {
+                    if (res.data.data.length > 0) {
+                        session.userData.user = res.data.data[0]
+                        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
+                        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
+                        if (companyEntityObject === null) {
+                            session.beginDialog('/none')
+                        } else {
+                            if (amountEntityObject === null) {
+                                session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
+                            }
+                            let company = companyEntityObject.entity.toLowerCase();
+                            let amount = amountEntityObject.entity
+                            if (company === null || amount === null) {
+                                session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand. Please try again.`)
+                            } else {
+                                apiHelper.getPortfolio(session.userData.user.Id)
+                                    .then((res) => {
+                                        let currentPortfolio = res.data.data;
+                                        let priceHistory = stockHelper.getStockPrice(company)
+                                            .then((result) => {
+                                                let priceHistory = result.data['Time Series (1min)']
+                                                if (!priceHistory) {
+                                                    session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand the company name/abbreviation. Please try again.`)
+                                                } else {
+                                                    let priceObject = priceHistory[Object.keys(priceHistory)[0]];
+                                                    let mostRecentPrice = priceObject['4. close']
+                                                    let totalPrice = mostRecentPrice * amount;
+                                                    let capitalRemaining = session.userData.user.CapitalRemaining - totalPrice;
+                                                    if (capitalRemaining > 0) {
+                                                        apiHelper.buyNewShares(session.userData.user.Id, company, amount, mostRecentPrice)
+                                                            .then((r) => {
+                                                                apiHelper.updateUserCapital(session.userData.user.Id, capitalRemaining)
+                                                                    .then((r) => {
+                                                                        session.send(`You've successfully purchased ${amount} shares of ${company} for a total price of ${totalPrice.toFixed(2)}!`);
+                                                                    })
+                                                            })
+                                                    } else {
+                                                        session.send(`I'm sorry it looks like you have insufficient funds. You have $${session.userData.user.CapitalRemaining} remaining in your account but the order price is $${totalPrice.toFixed(2)}.`)
+                                                    }
+                                                }
+                                            })
+                                    })
+                            }
+                        }
+                    } else {
+                        session.send(`Sorry, we were unable to complete the request. Please try again.`)
+                    }
+                })
         }
     }
 ]).triggerAction({
@@ -199,65 +205,71 @@ bot.dialog('/sell', [
             session.send("Hmm I don't have you logged in yet.")
             session.replaceDialog('/noUser')
         } else {
-            let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
-            let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
-            if (companyEntityObject === null) {
-                session.beginDialog('/none')
-            } else {
-                if (amountEntityObject === null) {
-                    session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
-                }
-                let company = companyEntityObject.entity.toLowerCase();
-                let amount = amountEntityObject.entity
-                if (company === null || amount === null) {
-                    session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
-                } else {
-                    apiHelper.getPortfolio(session.userData.user.Id)
-                        .then((res) => {
-                            let currentPortfolio = res.data.data;
-                            let priceHistory = stockHelper.getStockPrice(company)
-                                .then((result) => {
-                                    let priceHistory = result.data['Time Series (1min)']
-                                    if (!priceHistory) {
-                                        session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand the company name/abbreviation. Please try again.`)
-                                    } else {
-                                        let priceObject = priceHistory[Object.keys(priceHistory)[0]];
-                                        let mostRecentPrice = priceObject['4. close']
-                                        let totalPrice = mostRecentPrice * amount;
-                                        let newCapitalRemaining = session.userData.user.CapitalRemaining + totalPrice;
-                                        let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
-                                        if (!stockFound) {
-                                            session.send(`I'm sorry but it looks like you don't currently own any stock in ${company}`)
-                                        } else if (stockFound.NumShares < amount) {
-                                            session.send(`I'm sorry but it looks like you only own ${stockFound.NumShares} shares in ${company}.`)
-                                        } else if (stockFound.NumShares == amount) {
-                                            //sell all shares
-                                            apiHelper.sellAllShares(session.userData.user.Id, company)
-                                                .then((r) => {
-                                                    apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
-                                                        .then((r) => {
-                                                            setLocalUserCapital(session, newCapitalRemaining)
-                                                            session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
-                                                        })
-                                                })
-                                        } else {
-                                            //update shares
-                                            let prevNumShares = stockFound.NumShares;
-                                            let newNumShares = prevNumShares - amount;
-                                            apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.SharePrice)
-                                                .then((r) => {
-                                                    apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
-                                                        .then((r) => {
-                                                            setLocalUserCapital(session, newCapitalRemaining)
-                                                            session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
-                                                        })
-                                                })
-                                        }
-                                    }
-                                })
-                        })
-                }
-            }
+            apiHelper.loginUser(session.dialogData.username, results.response)
+                .then((res) => {
+                    if (res.data.data.length > 0) {
+                        session.userData.user = res.data.data[0];
+                        let companyEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'Company');
+                        let amountEntityObject = builder.EntityRecognizer.findEntity(args.intent.entities, 'builtin.number');
+                        if (companyEntityObject === null) {
+                            session.beginDialog('/none')
+                        } else {
+                            if (amountEntityObject === null) {
+                                session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
+                            }
+                            let company = companyEntityObject.entity.toLowerCase();
+                            let amount = amountEntityObject.entity
+                            if (company === null || amount === null) {
+                                session.send(`Hmm, it looks like you are trying to sell stock but I didn't understand. Please try again.`)
+                            } else {
+                                apiHelper.getPortfolio(session.userData.user.Id)
+                                    .then((res) => {
+                                        let currentPortfolio = res.data.data;
+                                        let priceHistory = stockHelper.getStockPrice(company)
+                                            .then((result) => {
+                                                let priceHistory = result.data['Time Series (1min)']
+                                                if (!priceHistory) {
+                                                    session.send(`Hmm, it looks like you are trying to buy stock but I didn't understand the company name/abbreviation. Please try again.`)
+                                                } else {
+                                                    let priceObject = priceHistory[Object.keys(priceHistory)[0]];
+                                                    let mostRecentPrice = priceObject['4. close']
+                                                    let totalPrice = mostRecentPrice * amount;
+                                                    let newCapitalRemaining = session.userData.user.CapitalRemaining + totalPrice;
+                                                    let stockFound = currentPortfolio.find(p => p.Company.toLowerCase() === company);
+                                                    if (!stockFound) {
+                                                        session.send(`I'm sorry but it looks like you don't currently own any stock in ${company}`)
+                                                    } else if (stockFound.NumShares < amount) {
+                                                        session.send(`I'm sorry but it looks like you only own ${stockFound.NumShares} shares in ${company}.`)
+                                                    } else if (stockFound.NumShares == amount) {
+                                                        //sell all shares
+                                                        apiHelper.sellAllShares(session.userData.user.Id, company)
+                                                            .then((r) => {
+                                                                apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                                    .then((r) => {
+                                                                        session.send(`You've successfully sold all your shares in ${company} for a total price of ${totalPrice}!`);
+                                                                    })
+                                                            })
+                                                    } else {
+                                                        //update shares
+                                                        let prevNumShares = stockFound.NumShares;
+                                                        let newNumShares = prevNumShares - amount;
+                                                        apiHelper.updateShares(session.userData.user.Id, company, newNumShares, stockFound.SharePrice)
+                                                            .then((r) => {
+                                                                apiHelper.updateUserCapital(session.userData.user.Id, newCapitalRemaining)
+                                                                    .then((r) => {
+                                                                        session.send(`You've successfully sold ${amount} shares in ${company} for a total price of ${totalPrice}!`);
+                                                                    })
+                                                            })
+                                                    }
+                                                }
+                                            })
+                                    })
+                            }
+                        }
+                    } else {
+                        session.send(`Sorry, we were unable to complete the request. Please try again.`)
+                    }
+                })
         }
     }
 ]).triggerAction({
@@ -276,15 +288,3 @@ bot.dialog('/none', [
 ]).triggerAction({
     matches: 'None'
 });
-
-const setLocalUserCapital = (session, capitalRemaining) => {
-    let currentUser = session.userData.user;
-    session.userData.user = {
-        Id: currentUser.Id,
-        Username: currentUser.Username,
-        Password: currentUser.Password,
-        Firstname: currentUser.Firstname,
-        Lastname: currentUser.Lastname,
-        CapitalRemaining: capitalRemaining
-    }
-}
